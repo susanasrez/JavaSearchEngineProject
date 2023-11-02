@@ -3,7 +3,6 @@ package org.ulpgc.indexer.controller.indexers;
 import org.ulpgc.indexer.Main;
 import org.ulpgc.indexer.controller.message.broker.EventConsumer;
 import org.ulpgc.indexer.controller.readers.ContentReader;
-import org.ulpgc.indexer.controller.InvertedIndexWriter;
 import org.ulpgc.indexer.model.FileEvent;
 
 import javax.jms.JMSException;
@@ -15,11 +14,11 @@ import java.util.Set;
 public class IndexerThread extends Thread {
     private final String contentPath;
     private final EventConsumer eventConsumer;
-    private final InvertedIndexWriter invertedIndexWriter;
+    private final InvertedIndexCloud invertedIndexWriter;
 
-    public IndexerThread(String contentPath, String indexPath, String credentialsJson) throws JMSException {
+    public IndexerThread(String contentPath, String credentialsJson) throws JMSException {
         this.contentPath = contentPath;
-        this.invertedIndexWriter = new InvertedIndexWriterImpl();
+        this.invertedIndexWriter = new InvertedIndexCloud(credentialsJson);
         this.eventConsumer = new EventConsumer("61616", "readEvents");
     }
 

@@ -8,14 +8,13 @@ import javax.jms.JMSException;
 public class Controller {
 
    public static void run(String[] args) throws InterruptedException, JMSException {
-       Thread reader = new ReaderThread("Indexer/src/main/resources/content",
-               "Indexer/src/main/resources/readEvents",
+       Thread reader = new ReaderThread("./src/main/resources/content",
+               "./src/main/resources/readEvents",
                args[0]);
        reader.start();
 
         Thread indexer = new IndexerThread(
-                "Indexer/src/main/resources/content",
-                "invertedIndex",
+                "./src/main/resources/content",
                 "/credentials.json");
         indexer.start();
    }
