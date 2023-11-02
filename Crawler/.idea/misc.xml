@@ -6,8 +6,8 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../Indexer/pom.xml" />
-        <option value="$PROJECT_DIR$/../Cleaner/pom.xml" />
         <option value="$PROJECT_DIR$/../QueryEngine/pom.xml" />
+        <option value="$PROJECT_DIR$/../Cleaner/pom.xml" />
       </list>
     </option>
   </component>
