@@ -11,11 +11,17 @@ import java.util.Date;
 
 public class Writer {
 
-    private static final Path pathContent= Path.of("datalake/content");
-    private static final Path pathEvent = Path.of("Cleaner/src/main/resources/readEvents");
-    private static final Path pathMetadata = Path.of("datalake/metadata");
+    private final Path pathContent;
+    private final Path pathEvent;
+    private final Path pathMetadata;
 
-    public static void writeToDatalake(String text, String idBook){
+    public Writer(Path pathContent, Path pathMetadata, Path pathEvent) {
+        this.pathContent = pathContent;
+        this.pathEvent = pathEvent;
+        this.pathMetadata = pathMetadata;
+    }
+
+    public void writeToDatalake(String text, String idBook){
         try {
             String newName = ParseFiles.renameFile(idBook);
             FileWriter fileWriter = new FileWriter(pathContent + "/" + newName + ".txt");
@@ -29,7 +35,7 @@ public class Writer {
         }
     }
 
-    public static void writeMetadataToDatalake(String text, String idBook){
+    public void writeMetadataToDatalake(String text, String idBook){
         try {
             String newName = ParseFiles.renameFile(idBook);
             FileWriter fileWriter = new FileWriter((pathMetadata +  "/" + newName + ".metadata"), true);
@@ -43,7 +49,7 @@ public class Writer {
         }
     }
 
-    public static void writeEvent(String idBook){
+    public void writeEvent(String idBook){
         FileWriter file = null;
         try {
             String newName = ParseFiles.renameFile(idBook);
