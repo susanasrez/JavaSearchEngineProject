@@ -1,4 +1,5 @@
 package org.crawler.message.broker;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
@@ -9,8 +10,8 @@ public class EventPublisher implements Publisher {
     private final MessageProducer producer;
 
     public EventPublisher(String port, String queue) throws JMSException {
-        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://mq-container:" + port);
-        this.connection = factory.createConnection("artemis", "artemis");
+        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:" + port);
+        this.connection = factory.createConnection();
         this.session = this.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         Destination destination = session.createQueue(queue);
         this.producer = session.createProducer(destination);

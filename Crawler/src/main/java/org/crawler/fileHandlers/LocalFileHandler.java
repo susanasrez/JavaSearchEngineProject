@@ -29,7 +29,7 @@ public class LocalFileHandler implements FileHandler{
     private void publishFileAddition(int bookID) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String currentDate = sdf.format(new Date());
-        filePublisher.publish(currentDate + '/' + bookID + ".txt");
+        filePublisher.publish(bookID + ".txt");
     }
 
     public int getLastFileIdInLastDirectory() {

@@ -7,7 +7,7 @@ public class Reader {
     public String readFile(Path filePath) throws IOException {
         StringBuilder content = new StringBuilder();
 
-        try (FileReader fileReader = new FileReader("datalake/" + filePath.toString());
+        try (FileReader fileReader = new FileReader(filePath.toString());
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
             String line;
