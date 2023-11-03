@@ -1,4 +1,5 @@
 package org.crawler.message.broker;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;

@@ -22,7 +22,6 @@ public class LocalFileHandler implements FileHandler{
 
     @Override
     public void saveDocument(Document bookDocument, int bookID) throws IOException {
-        createFolder();
         createFile(bookDocument, bookID);
         publishFileAddition(bookID);
     }
@@ -30,37 +29,23 @@ public class LocalFileHandler implements FileHandler{
     private void publishFileAddition(int bookID) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String currentDate = sdf.format(new Date());
-        filePublisher.publish(currentDate + '/' + bookID + ".txt");
+        filePublisher.publish(bookID + ".txt");
     }
 
     public int getLastFileIdInLastDirectory() {
         File directory = new File(DOCUMENT_REPOSITORY_PATH);
-
-        if (directory.exists() && directory.isDirectory()) {
-            File[] directories = directory.listFiles(File::isDirectory);
-
-            if (directories != null && directories.length > 0) {
-                Arrays.sort(directories, (dir1, dir2) -> Long.compare(dir2.lastModified(), dir1.lastModified()));
-
-                File lastDirectory = directories[0];
-                File[] filesInLastDirectory = lastDirectory.listFiles();
-
-                if (filesInLastDirectory != null && filesInLastDirectory.length > 0) {
-                    Arrays.sort(filesInLastDirectory, (file1, file2) -> Long.compare(file2.lastModified(), file1.lastModified()));
-                    return Integer.parseInt(filesInLastDirectory[0].getName().replace(".txt", ""));
-                } else {
-                    return -1;
-                }
-            } else {
-                return -1;
-            }
+        File[] filesInLastDirectory = directory.listFiles();
+        if (filesInLastDirectory != null && filesInLastDirectory.length > 0) {
+            Arrays.sort(filesInLastDirectory, (file1, file2) -> Long.compare(file2.lastModified(), file1.lastModified()));
+            return Integer.parseInt(filesInLastDirectory[0].getName().replace(".txt", ""));
         } else {
             return -1;
         }
+
     }
 
     private void createFile(Document bookDocument, int bookID) throws IOException{
-        String filePath = getFolderPath() + bookID + ".txt";
+        String filePath = DOCUMENT_REPOSITORY_PATH + bookID + ".txt";
         FileWriter writer = new FileWriter(filePath);
         writer.write(bookDocument.text());
         writer.close();

@@ -4,12 +4,19 @@ import org.ulpgc.cleaner.controller.process.Cleaner;
 import org.ulpgc.cleaner.controller.process.ParseFiles;
 import org.ulpgc.cleaner.controller.reader.Reader;
 
+import javax.jms.JMSException;
+
 public class Controller {
-    public static void main(String[] args) {
+    public static void run(String datalakePath) {
         Reader reader = new Reader();
         ParseFiles parseFiles = new ParseFiles();
         Cleaner cleaner = new Cleaner();
-        EventListener eventListener = new EventListener("datalake", reader, parseFiles, cleaner);
-        eventListener.run();
+
+        try {
+            FileProcessor fileProcessor = new FileProcessor(datalakePath, reader, parseFiles, cleaner);
+            fileProcessor.run();
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
     }
 }
