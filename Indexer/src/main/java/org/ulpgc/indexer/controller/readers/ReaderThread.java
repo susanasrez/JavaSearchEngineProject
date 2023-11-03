@@ -25,7 +25,7 @@ public class ReaderThread extends Thread {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
         this.listenedPath = listenedPath;
-        this.eventConsumer = new EventConsumer("61616", "datalakeEvents");
+        this.eventConsumer = new EventConsumer("61616", "cleanerEvents");
         this.eventPublisher = new EventPublisher("61616", "readEvents");
     }
 
