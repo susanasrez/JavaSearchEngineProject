@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class LocalFileHandler implements FileHandler{
 
-    private static final String DOCUMENT_REPOSITORY_PATH = "./DocumentsRepository/RawBooks/";
+    private static final String DOCUMENT_REPOSITORY_PATH = "C:\\Users\\carde\\OneDrive - Universidad de Las Palmas de Gran Canaria\\Documents\\DocumentsRepository\\RawBooks\\";
     private final Publisher filePublisher;
 
     public LocalFileHandler() throws Exception {
