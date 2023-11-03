@@ -1,13 +1,14 @@
-package org.crawler.message.broker;
+package org.ulpgc.cleaner.controller.message.brocker;
 
+import org.ulpgc.cleaner.controller.Publisher;
 import org.apache.activemq.ActiveMQConnectionFactory;
-
 import javax.jms.*;
 
 public class EventPublisher implements Publisher {
     private final Connection connection;
     private final Session session;
     private final MessageProducer producer;
+
 
     public EventPublisher(String port, String queue) throws JMSException {
         ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:" + port);
@@ -16,6 +17,7 @@ public class EventPublisher implements Publisher {
         Destination destination = session.createQueue(queue);
         this.producer = session.createProducer(destination);
     }
+
 
     @Override
     public void publish(String event) {
@@ -27,10 +29,12 @@ public class EventPublisher implements Publisher {
         }
     }
 
+
     public void closeConnection() throws JMSException {
         producer.close();
         session.close();
         connection.close();
     }
+
 
 }
