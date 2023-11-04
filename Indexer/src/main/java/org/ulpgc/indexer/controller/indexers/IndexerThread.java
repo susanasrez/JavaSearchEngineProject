@@ -16,7 +16,7 @@ public class IndexerThread extends Thread {
     private final EventConsumer eventConsumer;
     private final InvertedIndexCloud invertedIndexWriter;
 
-    public IndexerThread(String contentPath, String credentialsJson) throws JMSException {
+    public IndexerThread(String contentPath, String credentialsJson) throws JMSException, IOException {
         this.contentPath = contentPath;
         this.invertedIndexWriter = new InvertedIndexCloud(credentialsJson);
         this.eventConsumer = new EventConsumer("61616", "readEvents");
@@ -50,7 +50,7 @@ public class IndexerThread extends Thread {
         }
     }
 
-    private void saveEventToDatamart(Path filePath) throws IOException {
+    private void saveEventToDatamart(Path filePath){
         invertedIndexWriter.save_document_event(new FileEvent(
                 new Date(),
                 filePath

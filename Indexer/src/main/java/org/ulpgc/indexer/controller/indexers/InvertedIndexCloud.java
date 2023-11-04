@@ -15,22 +15,20 @@ public class InvertedIndexCloud implements InvertedIndexWriter {
 
     private final String bucketName;
     private Storage storage;
-    private final String credentialsJson;
 
-    public InvertedIndexCloud(String credentialsJson) {
+    public InvertedIndexCloud(String credentialsJson) throws IOException {
         this.bucketName = "datamart_invertedindex";
-        this.credentialsJson = credentialsJson;
+        obtain_credentials(credentialsJson);
     }
 
-    public void obtain_credentials() throws IOException {
+    public void obtain_credentials(String credentialsJson) throws IOException {
         GoogleCredentials credentials = GoogleCredentials.fromStream(
                 Main.class.getResourceAsStream(credentialsJson));
         storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
     }
 
     @Override
-    public void save_document_event(FileEvent event) throws IOException {
-        obtain_credentials();
+    public void save_document_event(FileEvent event){
         String blobName = "invertedIndexEvents/" + event.getFileName();
         BlobId blobId = BlobId.of(bucketName, blobName);
 
@@ -50,8 +48,7 @@ public class InvertedIndexCloud implements InvertedIndexWriter {
     }
 
     @Override
-    public void save_word_document(String word, String fileName) throws IOException {
-        obtain_credentials();
+    public void save_word_document(String word, String fileName){
         String blobName = "invertedIndex/" + word;
         BlobId blobId = BlobId.of(bucketName, blobName);
 
