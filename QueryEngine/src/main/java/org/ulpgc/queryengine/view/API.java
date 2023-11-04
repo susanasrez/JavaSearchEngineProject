@@ -77,7 +77,7 @@ public class API {
 
     private static void getContent(){
         get("/datalake/content/:idbook", (req, res) -> {
-            String idbook = req.params("idbook") + ".content";
+            String idbook = req.params("idbook") + ".txt";
             String content = DatalakeReaderOneDrive.readContent(idbook);
             return (new Gson()).toJson(content);
         });
