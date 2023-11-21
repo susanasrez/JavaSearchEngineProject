@@ -96,5 +96,4 @@ public class InvertedIndexReaderWord implements DatamartReader{
         return new WordFrequency(word, frequency);
     }
 
-
 }
