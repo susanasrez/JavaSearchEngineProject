@@ -1,10 +1,7 @@
-package org.ulpgc.queryengine.controller.readDatamart;
+package org.ulpgc.queryengine.controller.readDatamart.google.cloud;
 
-import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.*;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.StorageOptions;
 import org.ulpgc.queryengine.Main;
 
 import java.io.IOException;
@@ -26,4 +23,21 @@ public class ReadCloud {
         return storage.get(blobId);
     }
 
+    public static int countFilesInBucket(String bucketName) {
+        Bucket bucket = storage.get(bucketName);
+        if (bucket != null) {
+            int count = 0;
+            for (Blob ignored : bucket.list().iterateAll()) {
+                count++;
+            }
+            return count;
+        } else {
+            System.out.println("Bucket " + bucketName + " not found.");
+            return 0;
+        }
+    }
+
+    public static Storage storage() {
+        return storage;
+    }
 }

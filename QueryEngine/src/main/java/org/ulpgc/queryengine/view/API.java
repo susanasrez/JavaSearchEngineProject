@@ -2,8 +2,8 @@ package org.ulpgc.queryengine.view;
 
 import com.google.gson.Gson;
 import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
-import org.ulpgc.queryengine.controller.readDatamart.DatamartDataInterpreter;
-import org.ulpgc.queryengine.controller.readDatamart.ReadDatamartStats;
+import org.ulpgc.queryengine.controller.readDatamart.filesystem.ReadDatamartFiles;
+import org.ulpgc.queryengine.controller.readDatamart.filesystem.ReadDatamartStats;
 import org.ulpgc.queryengine.model.*;
 
 import java.util.List;
@@ -13,8 +13,12 @@ import static spark.Spark.port;
 
 public class API {
 
-    public static void runAPI(){
-        port(8080);
+    private static ReadDatamartFiles readDatamartFiles;
+    private static ReadDatamartStats readDatamartStats;
+    public static void runAPI(ReadDatamartFiles obtainFiles, ReadDatamartStats obtainStats, int port){
+        readDatamartFiles = obtainFiles;
+        readDatamartStats = obtainStats;
+        port(port);
         getTotalWords();
         getLen();
         getWordDocuments();
@@ -27,20 +31,20 @@ public class API {
     }
 
     public static void getTotalWords(){
-        get("stats/total", (req, res) -> ReadDatamartStats.totalWords());
+        get("stats/total", (req, res) -> readDatamartStats.totalWords());
     }
 
     public static void getLen(){
         get("stats/length/:number", (req, res) -> {
             String number = req.params("number");
-            return ReadDatamartStats.wordLength(number);
+            return readDatamartStats.wordLength(number);
         });
     }
 
     private static void getWordDocuments() {
         get("/datamart/:word", (req, res) -> {
             String word = req.params("word");
-            List<WordDocuments> documents = DatamartDataInterpreter.getDocumentsWord(word);
+            List<WordDocuments> documents = readDatamartFiles.getDocumentsWord(word);
             return (new Gson()).toJson(documents);
         });
     }
@@ -48,7 +52,7 @@ public class API {
     private static void getPhrase() {
         get("datamart-search/:phrase", (req, res) -> {
             String phrase = req.params("phrase");
-            List<WordDocuments> documents = DatamartDataInterpreter.getDocumentsWord(phrase);
+            List<WordDocuments> documents = readDatamartFiles.getDocumentsWord(phrase);
             return (new Gson()).toJson(documents);
         });
     }
@@ -56,7 +60,7 @@ public class API {
     private static void getRecommendBook(){
         get("datamart-recommend/:phrase", (req, res) -> {
             String phrase = req.params("phrase");
-            List<RecommendBook> book = DatamartDataInterpreter.getRecommendBook(phrase);
+            List<RecommendBook> book = readDatamartFiles.getRecommendBook(phrase);
             return (new Gson()).toJson(book);
         });
     }
@@ -64,7 +68,7 @@ public class API {
     private static void getFrequencyWord(){
         get("/stats/datamart-frequency/:word", (req, res) -> {
             String word = req.params("word");
-            WordFrequency frequency = ReadDatamartStats.getFrequency(word);
+            WordFrequency frequency = readDatamartFiles.getFrequency(word);
             return (new Gson()).toJson(frequency);
         });
     }

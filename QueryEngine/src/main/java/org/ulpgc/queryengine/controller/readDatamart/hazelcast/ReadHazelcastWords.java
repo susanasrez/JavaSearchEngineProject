@@ -1,27 +1,42 @@
-package org.ulpgc.queryengine.controller.readDatamart;
+package org.ulpgc.queryengine.controller.readDatamart.hazelcast;
 
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.map.IMap;
+import org.ulpgc.queryengine.controller.exceptions.ObjectNotFoundException;
 import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
+import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
 import org.ulpgc.queryengine.model.MetadataBook;
 import org.ulpgc.queryengine.model.RecommendBook;
 import org.ulpgc.queryengine.model.WordDocuments;
+import org.ulpgc.queryengine.model.WordFrequency;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DatamartDataInterpreter {
-    private static String datamartPath;
+public class ReadHazelcastWords implements DatamartReaderFiles {
+    private final HazelcastInstance hazelcastInstance;
 
-    public DatamartDataInterpreter(String datamartPath){
-        this.datamartPath = datamartPath;
+    public ReadHazelcastWords(HazelcastInstance hazelcastInstance){
+        this.hazelcastInstance = hazelcastInstance;
     }
 
-    public static List<WordDocuments> getDocumentsWord(String param){
+    @Override
+    public List<String> get_documents(String word) {
+        word = word.toLowerCase();
+        IMap<String, List<String>> hazelcastMap = hazelcastInstance.getMap("datamart");
+        List<String> documents = hazelcastMap.get(word);
+
+        if (documents == null) {
+            return new ArrayList<>();
+        }
+
+        return documents;
+    }
+
+    @Override
+    public List<WordDocuments> getDocumentsWord(String param) throws ObjectNotFoundException {
         List<WordDocuments> documents = new ArrayList<>();
 
         String[] words= param.split("\\+");
@@ -35,23 +50,8 @@ public class DatamartDataInterpreter {
         return documents;
     }
 
-    public static List<String> get_documents(String word){
-        word = word.toLowerCase();
-        String filePath = datamartPath + "/" + word;
-        List<String> lines;
-
-        try {
-            Path path = Paths.get(filePath);
-            lines = Files.readAllLines(path);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            lines = null;
-        }
-        return lines;
-    }
-
-    public static List<RecommendBook> getRecommendBook(String phrase) {
+    @Override
+    public List<RecommendBook> getRecommendBook(String phrase) throws ObjectNotFoundException {
         List<WordDocuments> wordDocumentsList = getDocumentsWord(phrase);
         Map<String, Integer> idCountMap = new HashMap<>();
         Map<String, String> idTitleMap = new HashMap<>();
@@ -80,6 +80,18 @@ public class DatamartDataInterpreter {
         return mostRecommendedBooks;
     }
 
+    @Override
+    public WordFrequency getFrequency(String word) throws ObjectNotFoundException {
+        List<WordDocuments> wordDocumentsList = getDocumentsWord(word);
+
+        int frequency = 0;
+        for (WordDocuments wordDocuments : wordDocumentsList) {
+            frequency += wordDocuments.documentsId().size();
+        }
+
+        return new WordFrequency(word, frequency);
+    }
+
     private static String getTitleForId(String id) {
         try {
             MetadataBook metadataBook = DatalakeReaderOneDrive.readMetadata(id);
@@ -89,6 +101,4 @@ public class DatamartDataInterpreter {
             return "Title not found";
         }
     }
-
-
 }

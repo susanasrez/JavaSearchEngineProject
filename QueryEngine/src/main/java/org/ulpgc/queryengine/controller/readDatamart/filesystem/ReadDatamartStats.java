@@ -1,4 +1,4 @@
-package org.ulpgc.queryengine.controller.readDatamart;
+package org.ulpgc.queryengine.controller.readDatamart.filesystem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,17 +7,17 @@ import java.util.List;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import org.ulpgc.queryengine.model.WordDocuments;
-import org.ulpgc.queryengine.model.WordFrequency;
+import org.ulpgc.queryengine.controller.readDatamart.DatamartCalculateStats;
 
-public class ReadDatamartStats {
+public class ReadDatamartStats implements DatamartCalculateStats {
 
     private static String datamartPath;
     public ReadDatamartStats(String datamartPath){
         this.datamartPath = datamartPath;
     }
 
-    public static JsonObject totalWords() {
+    @Override
+    public JsonObject totalWords() {
         JsonObject jsonResult = new JsonObject();
 
         try {
@@ -38,7 +38,8 @@ public class ReadDatamartStats {
         return jsonResult;
     }
 
-    public static JsonObject wordLength(String number){
+    @Override
+    public JsonObject wordLength(String number){
         JsonObject jsonResult = new JsonObject();
         JsonArray words = findWordsByLength(Integer.parseInt(number));
         jsonResult.addProperty("words-by-length", String.valueOf(words));
@@ -47,7 +48,8 @@ public class ReadDatamartStats {
         return jsonResult;
     }
 
-    public static JsonArray findWordsByLength(int length) {
+    @Override
+    public JsonArray findWordsByLength(int length) {
         List<String> words = new ArrayList<>();
 
         File folder = new File(datamartPath);
@@ -71,14 +73,5 @@ public class ReadDatamartStats {
         return jsonArray;
     }
 
-    public static WordFrequency getFrequency(String word){
-        List<WordDocuments> wordDocumentsList = DatamartDataInterpreter.getDocumentsWord(word);
 
-        int frequency = 0;
-        for (WordDocuments wordDocuments : wordDocumentsList) {
-            frequency += wordDocuments.documentsId().size();
-        }
-
-        return new WordFrequency(word, frequency);
-    }
 }
