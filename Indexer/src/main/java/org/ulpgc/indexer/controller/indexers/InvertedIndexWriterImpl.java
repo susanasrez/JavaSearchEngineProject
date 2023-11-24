@@ -43,7 +43,6 @@ public class InvertedIndexWriterImpl implements InvertedIndexWriter {
     @Override
     public void saveWordDocument(String word, String fileName) {
         invertedIndex.put(word, fileName);
-        System.out.println(invertedIndex.get(word));
 
         try {
             FileWriter fileWriter = new FileWriter(indexPath + "/invertedIndex/" + word, true);
