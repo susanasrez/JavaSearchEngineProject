@@ -16,11 +16,6 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            // Obtén el directorio actual
-            String directorioActual = System.getProperty("user.dir");
-
-            // Imprime el directorio actual
-            System.out.println("Directorio Actual: " + directorioActual);
             Controller.run(args[0]);
             API.runAPI();
 
