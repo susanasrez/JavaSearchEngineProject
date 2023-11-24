@@ -1,6 +1,8 @@
-package org.ulpgc.indexer.controller.indexers;
+package org.ulpgc.indexer.controller;
 
 import org.ulpgc.indexer.Main;
+import org.ulpgc.indexer.controller.indexers.InvertedIndexCloud;
+import org.ulpgc.indexer.controller.indexers.InvertedIndexWriterImpl;
 import org.ulpgc.indexer.controller.message.broker.EventConsumer;
 import org.ulpgc.indexer.controller.readers.ContentReader;
 import org.ulpgc.indexer.model.FileEvent;
@@ -14,11 +16,11 @@ import java.util.Set;
 public class IndexerThread extends Thread {
     private final String contentPath;
     private final EventConsumer eventConsumer;
-    private final InvertedIndexCloud invertedIndexWriter;
+    private final InvertedIndexWriter invertedIndexWriter;
 
     public IndexerThread(String contentPath, String credentialsJson) throws JMSException, IOException {
         this.contentPath = contentPath;
-        this.invertedIndexWriter = new InvertedIndexCloud(credentialsJson);
+        this.invertedIndexWriter = new InvertedIndexWriterImpl();
         this.eventConsumer = new EventConsumer("61616", "readEvents");
     }
 
@@ -46,12 +48,13 @@ public class IndexerThread extends Thread {
         Set<String> words = ContentReader.contentTokenize(filePath.getFileName(), contentPath);
 
         for (String word : words) {
-            invertedIndexWriter.save_word_document(word, String.valueOf(filePath.getFileName()));
+            invertedIndexWriter.saveWordDocument(word, String.valueOf(filePath.getFileName()));
+            invertedIndexWriter.saveWordDocument(word, String.valueOf(filePath.getFileName()));
         }
     }
 
-    private void saveEventToDatamart(Path filePath){
-        invertedIndexWriter.save_document_event(new FileEvent(
+    private void saveEventToDatamart(Path filePath) throws IOException {
+        invertedIndexWriter.saveDocumentEvent(new FileEvent(
                 new Date(),
                 filePath
         ));

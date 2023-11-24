@@ -1,10 +1,11 @@
-package org.ulpgc.indexer.controller.readers;
+package org.ulpgc.indexer.controller;
 
 import com.google.gson.Gson;
 import org.ulpgc.indexer.controller.Consumer;
 import org.ulpgc.indexer.controller.Publisher;
 import org.ulpgc.indexer.controller.message.broker.EventConsumer;
 import org.ulpgc.indexer.controller.message.broker.EventPublisher;
+import org.ulpgc.indexer.controller.readers.ContentReader;
 import org.ulpgc.indexer.model.FileEvent;
 
 import javax.jms.JMSException;
@@ -25,7 +26,7 @@ public class ReaderThread extends Thread {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
         this.listenedPath = listenedPath;
-        this.eventConsumer = new EventConsumer("61616", "cleanerEvents");
+        this.eventConsumer = new EventConsumer("61616", "datalakeEvents");
         this.eventPublisher = new EventPublisher("61616", "readEvents");
     }
 

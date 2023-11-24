@@ -1,13 +1,14 @@
 package org.ulpgc.indexer;
 
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.config.Config;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.map.IMap;
+import com.hazelcast.multimap.MultiMap;
 import org.ulpgc.indexer.controller.Controller;
-import org.ulpgc.indexer.controller.indexers.IndexerThread;
-import org.ulpgc.indexer.controller.message.broker.EventPublisher;
-import org.ulpgc.indexer.controller.readers.ReaderThread;
 import org.ulpgc.indexer.view.API;
-
-import javax.jms.JMSException;
-import java.io.IOException;
 
 public class Main {
     public static int indexedFiles = 0;
@@ -15,7 +16,12 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            Controller.run(args);
+            // Obtén el directorio actual
+            String directorioActual = System.getProperty("user.dir");
+
+            // Imprime el directorio actual
+            System.out.println("Directorio Actual: " + directorioActual);
+            Controller.run(args[0]);
             API.runAPI();
 
         } catch (Exception e) {
