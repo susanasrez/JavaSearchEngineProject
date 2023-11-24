@@ -22,7 +22,7 @@ public class InvertedIndexReaderImpl implements InvertedIndexReader {
     }
 
     @Override
-    public Map<String, List<String>> get_inverted_index() {
+    public Map<String, List<String>> getInvertedIndex() {
         Map<String, List<String>> words = new HashMap<>();
 
         Path directory = Paths.get(indexPath + "/invertedIndex");
@@ -43,7 +43,7 @@ public class InvertedIndexReaderImpl implements InvertedIndexReader {
     }
 
     @Override
-    public List<FileEvent> get_saved_events() {
+    public List<FileEvent> getSavedEvents() {
         List<FileEvent> events = new ArrayList<>();
 
         Path directory = Paths.get(indexPath + "/indexEvents");

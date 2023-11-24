@@ -12,5 +12,8 @@
         <module name="Cleaner" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Crawler" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

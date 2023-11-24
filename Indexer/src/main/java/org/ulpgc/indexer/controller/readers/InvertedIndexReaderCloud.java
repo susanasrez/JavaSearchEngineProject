@@ -23,7 +23,7 @@ public class InvertedIndexReaderCloud implements InvertedIndexReader {
         this.bucketName = "datamart_invertedindex";
     }
     @Override
-    public Map<String, List<String>> get_inverted_index() throws IOException {
+    public Map<String, List<String>> getInvertedIndex() throws IOException {
         Map<String, List<String>> invertedIndex  = new HashMap<>();
 
         obtain_credentials();
@@ -56,7 +56,7 @@ public class InvertedIndexReaderCloud implements InvertedIndexReader {
     }
 
     @Override
-    public List<FileEvent> get_saved_events() throws IOException {
+    public List<FileEvent> getSavedEvents() throws IOException {
         List<FileEvent> events = new ArrayList<>();
         obtain_credentials();
 

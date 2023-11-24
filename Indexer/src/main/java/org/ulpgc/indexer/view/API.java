@@ -19,13 +19,13 @@ public class API {
 
     private static void getIndexedDocuments() {
         get("/indexed-documents", (req, res) ->
-                (new Gson()).toJson(invertedIndexReader.get_saved_events())
+                (new Gson()).toJson(invertedIndexReader.getSavedEvents())
         );
     }
 
     private static void getInvertedIndexOf() {
         get("/inverted-index-of", (req, res) ->
-                (new Gson()).toJson(invertedIndexReader.get_inverted_index())
+                (new Gson()).toJson(invertedIndexReader.getInvertedIndex())
         );
     }
 
