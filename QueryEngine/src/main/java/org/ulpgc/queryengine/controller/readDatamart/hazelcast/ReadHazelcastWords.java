@@ -16,16 +16,18 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadHazelcastWords implements DatamartReaderFiles {
+
     private final HazelcastInstance hazelcastInstance;
+    private final IMap<String, List<String>> hazelcastMap;
 
     public ReadHazelcastWords(HazelcastInstance hazelcastInstance){
         this.hazelcastInstance = hazelcastInstance;
+        this.hazelcastMap = hazelcastInstance.getMap("datamart");
     }
 
     @Override
     public List<String> get_documents(String word) {
         word = word.toLowerCase();
-        IMap<String, List<String>> hazelcastMap = hazelcastInstance.getMap("datamart");
         List<String> documents = hazelcastMap.get(word);
 
         if (documents == null) {

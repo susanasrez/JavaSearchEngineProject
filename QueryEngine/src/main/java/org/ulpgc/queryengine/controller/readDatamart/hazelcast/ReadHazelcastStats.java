@@ -12,14 +12,15 @@ import java.util.List;
 public class ReadHazelcastStats implements DatamartCalculateStats {
 
     private final HazelcastInstance hazelcastInstance;
+    private final IMap<String, List<String>> hazelcastMap;
 
     public ReadHazelcastStats(HazelcastInstance hazelcastInstance){
         this.hazelcastInstance = hazelcastInstance;
+        this.hazelcastMap = hazelcastInstance.getMap("datamart");
     }
     @Override
     public JsonObject totalWords() {
         JsonObject jsonResult = new JsonObject();
-        IMap<String, List<String>> hazelcastMap = hazelcastInstance.getMap("NAME");
 
         int total = hazelcastMap.size();
         jsonResult.addProperty("total", total);
@@ -40,7 +41,6 @@ public class ReadHazelcastStats implements DatamartCalculateStats {
     @Override
     public JsonArray findWordsByLength(int length) {
         List<String> words = new ArrayList<>();
-        IMap<String, List<String>> hazelcastMap = hazelcastInstance.getMap("tu_nombre_mapa_hazelcast");
 
         for (String word : hazelcastMap.keySet()) {
             if (word.length() == length) {
