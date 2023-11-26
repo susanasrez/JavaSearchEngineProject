@@ -36,7 +36,7 @@ public class ReadGoogleCloudObjects implements DatamartReaderFiles {
     public List<WordDocuments> getDocumentsWord(String param) {
         List<WordDocuments> documents = new ArrayList<>();
 
-        String[] words= param.split(" ");
+        String[] words= param.split("\\+");
         for (String word : words){
             try {
                 List<String> idDocuments = get_documents(word);
@@ -75,6 +75,7 @@ public class ReadGoogleCloudObjects implements DatamartReaderFiles {
                 mostRecommendedBooks.add(new RecommendBook(idTitleMap.get(entry.getKey()), entry.getKey()));
             }
         }
+        System.out.println("xd");
 
         return mostRecommendedBooks;
     }

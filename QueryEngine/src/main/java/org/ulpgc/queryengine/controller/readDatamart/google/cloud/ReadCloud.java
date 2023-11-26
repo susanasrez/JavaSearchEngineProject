@@ -23,11 +23,12 @@ public class ReadCloud {
         return storage.get(blobId);
     }
 
-    public static int countFilesInBucket(String bucketName) {
+    public static int countFilesInFolder(String bucketName, String folderName) {
         Bucket bucket = storage.get(bucketName);
         if (bucket != null) {
             int count = 0;
-            for (Blob ignored : bucket.list().iterateAll()) {
+            Iterable<Blob> blobs = bucket.list(Storage.BlobListOption.prefix(folderName + "/")).iterateAll();
+            for (Blob ignored : blobs) {
                 count++;
             }
             return count;

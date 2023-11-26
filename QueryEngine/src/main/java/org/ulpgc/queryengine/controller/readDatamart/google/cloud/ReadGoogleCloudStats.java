@@ -13,17 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReadGoogleCloudStats implements DatamartCalculateStats {
-
-    private final ReadGoogleCloudObjects readGoogleCloudObjects = new ReadGoogleCloudObjects();
     @Override
     public JsonObject totalWords() {
         JsonObject result = new JsonObject();
 
         String bucketName = "datamart_invertedindex";
+        String folderName = "invertedIndex";
 
         try {
             ReadCloud.obtain_credentials();
-            int fileCount = ReadCloud.countFilesInBucket(bucketName);
+            int fileCount = ReadCloud.countFilesInFolder(bucketName, folderName);
             result.addProperty("total_files", fileCount);
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,12 +38,13 @@ public class ReadGoogleCloudStats implements DatamartCalculateStats {
         int wordLength = Integer.parseInt(number);
 
         String bucketName = "datamart_invertedindex";
+        String folderName = "invertedIndex";
         int wordsCount = 0;
         List<String> wordsByLength = new ArrayList<>();
 
         Bucket bucket = ReadCloud.storage().get(bucketName);
         if (bucket != null) {
-            Page<Blob> blobs = bucket.list();
+            Page<Blob> blobs = bucket.list(Storage.BlobListOption.prefix(folderName + "/"));
             for (Blob blob : blobs.iterateAll()) {
                 String word = blob.getName();
                 if (word.length() == wordLength) {
