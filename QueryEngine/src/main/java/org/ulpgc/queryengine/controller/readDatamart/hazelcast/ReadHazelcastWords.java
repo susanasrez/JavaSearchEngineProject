@@ -1,5 +1,7 @@
 package org.ulpgc.queryengine.controller.readDatamart.hazelcast;
 
+import com.hazelcast.config.Config;
+import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import org.ulpgc.queryengine.controller.exceptions.ObjectNotFoundException;
@@ -17,12 +19,18 @@ import java.util.Map;
 
 public class ReadHazelcastWords implements DatamartReaderFiles {
 
-    private final HazelcastInstance hazelcastInstance;
+    private HazelcastInstance hazelcastInstance = initialize();
     private final IMap<String, List<String>> hazelcastMap;
 
-    public ReadHazelcastWords(HazelcastInstance hazelcastInstance){
-        this.hazelcastInstance = hazelcastInstance;
+    public ReadHazelcastWords(){
         this.hazelcastMap = hazelcastInstance.getMap("datamart");
+    }
+
+    public HazelcastInstance initialize(){
+        Config config = new Config();
+        config.setInstanceName("instance");
+        this.hazelcastInstance = Hazelcast.newHazelcastInstance(config);
+        return null;
     }
 
     @Override

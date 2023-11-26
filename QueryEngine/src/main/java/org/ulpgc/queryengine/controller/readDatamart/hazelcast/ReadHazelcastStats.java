@@ -2,6 +2,8 @@ package org.ulpgc.queryengine.controller.readDatamart.hazelcast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.hazelcast.config.Config;
+import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartCalculateStats;
@@ -11,12 +13,18 @@ import java.util.List;
 
 public class ReadHazelcastStats implements DatamartCalculateStats {
 
-    private final HazelcastInstance hazelcastInstance;
+    private HazelcastInstance hazelcastInstance = initialize();
     private final IMap<String, List<String>> hazelcastMap;
 
-    public ReadHazelcastStats(HazelcastInstance hazelcastInstance){
-        this.hazelcastInstance = hazelcastInstance;
+    public ReadHazelcastStats(){
         this.hazelcastMap = hazelcastInstance.getMap("datamart");
+    }
+
+    public HazelcastInstance initialize(){
+        Config config = new Config();
+        config.setInstanceName("instance");
+        this.hazelcastInstance = Hazelcast.newHazelcastInstance(config);
+        return null;
     }
     @Override
     public JsonObject totalWords() {

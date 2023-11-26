@@ -9,21 +9,18 @@ import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
 import org.ulpgc.queryengine.controller.readDatamart.filesystem.ReadDatamartFiles;
 import org.ulpgc.queryengine.controller.readDatamart.filesystem.ReadDatamartStats;
 import org.ulpgc.queryengine.controller.readDatamart.hazelcast.ReadHazelcastWords;
+import org.ulpgc.queryengine.model.WordDocuments;
 import org.ulpgc.queryengine.view.API;
+
+import java.util.List;
 
 public class Controller {
 
     public Controller(String datalake, String datamart, int port) throws ObjectNotFoundException {
-        /*new DatalakeReaderOneDrive(datalake+"/Metadata",
+        new DatalakeReaderOneDrive(datalake+"/Metadata",
                 datalake+"/Content", datalake+"/RawBooks");
         ReadDatamartFiles readDatamartFiles= new ReadDatamartFiles(datamart);
         ReadDatamartStats readDatamartStats = new ReadDatamartStats(datamart);
-        API.runAPI(readDatamartFiles, readDatamartStats, port);*/
-        Config config = new Config();
-        config.setInstanceName("instance");
-        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
-        DatamartReaderFiles datamartReaderFiles = new ReadHazelcastWords(hazelcastInstance);
-        datamartReaderFiles.get_documents("hello");
-
+        API.runAPI(readDatamartFiles, readDatamartStats, port);
     }
 }
