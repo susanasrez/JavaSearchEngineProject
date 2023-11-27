@@ -1,9 +1,8 @@
 package org.ulpgc.queryengine.controller.readDatamart.hazelcast;
 
-import com.hazelcast.config.Config;
-import com.hazelcast.core.Hazelcast;
+import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.map.IMap;
+import com.hazelcast.multimap.MultiMap;
 import org.ulpgc.queryengine.controller.exceptions.ObjectNotFoundException;
 import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
@@ -12,41 +11,34 @@ import org.ulpgc.queryengine.model.RecommendBook;
 import org.ulpgc.queryengine.model.WordDocuments;
 import org.ulpgc.queryengine.model.WordFrequency;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ReadHazelcastWords implements DatamartReaderFiles {
 
-    private HazelcastInstance hazelcastInstance = initialize();
-    private final IMap<String, List<String>> hazelcastMap;
+    private final HazelcastInstance client;
+    private final MultiMap<Object, Object> hazelcastMap;
 
     public ReadHazelcastWords(){
-        this.hazelcastMap = hazelcastInstance.getMap("datamart");
-    }
-
-    public HazelcastInstance initialize(){
-        Config config = new Config();
-        config.setInstanceName("instance");
-        this.hazelcastInstance = Hazelcast.newHazelcastInstance(config);
-        return null;
+        this.client = HazelcastClient.newHazelcastClient();
+        this.hazelcastMap = client.getMultiMap("invertedIndex");
     }
 
     @Override
     public List<String> get_documents(String word) {
         word = word.toLowerCase();
-        List<String> documents = hazelcastMap.get(word);
+        Collection<Object> documents = hazelcastMap.get(word);
 
-        if (documents == null) {
-            return new ArrayList<>();
+        List<String> documentsStrings = new ArrayList<>();
+
+        for (Object obj : documents) {
+            documentsStrings.add((String) obj);
         }
 
-        return documents;
+        return documentsStrings;
     }
 
     @Override
-    public List<WordDocuments> getDocumentsWord(String param) throws ObjectNotFoundException {
+    public List<WordDocuments> getDocumentsWord(String param) {
         List<WordDocuments> documents = new ArrayList<>();
 
         String[] words= param.split("\\+");
@@ -63,11 +55,11 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
     @Override
     public List<RecommendBook> getRecommendBook(String phrase) throws ObjectNotFoundException {
         List<WordDocuments> wordDocumentsList = getDocumentsWord(phrase);
-        Map<String, Integer> idCountMap = new HashMap<>();
-        Map<String, String> idTitleMap = new HashMap<>();
+        Map<Object, Integer> idCountMap = new HashMap<>();
+        Map<Object, String> idTitleMap = new HashMap<>();
 
         for (WordDocuments wordDocuments : wordDocumentsList) {
-            for (String id : wordDocuments.documentsId()) {
+            for (Object id : wordDocuments.documentsId()) {
                 idCountMap.put(id, idCountMap.getOrDefault(id, 0) + 1);
                 String title = getTitleForId(id);
                 idTitleMap.put(id, title);
@@ -77,7 +69,7 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
         int maxCount = 0;
         List<RecommendBook> mostRecommendedBooks = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> entry : idCountMap.entrySet()) {
+        for (Map.Entry<Object, Integer> entry : idCountMap.entrySet()) {
             if (entry.getValue() > maxCount) {
                 maxCount = entry.getValue();
                 mostRecommendedBooks.clear();
@@ -102,7 +94,7 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
         return new WordFrequency(word, frequency);
     }
 
-    private static String getTitleForId(String id) {
+    private static String getTitleForId(Object id) {
         try {
             MetadataBook metadataBook = DatalakeReaderOneDrive.readMetadata(id);
             return metadataBook.title();

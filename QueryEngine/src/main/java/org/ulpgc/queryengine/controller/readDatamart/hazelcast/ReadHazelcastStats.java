@@ -2,29 +2,23 @@ package org.ulpgc.queryengine.controller.readDatamart.hazelcast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.hazelcast.config.Config;
-import com.hazelcast.core.Hazelcast;
+import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.map.IMap;
+import com.hazelcast.multimap.MultiMap;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartCalculateStats;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ReadHazelcastStats implements DatamartCalculateStats {
 
-    private HazelcastInstance hazelcastInstance = initialize();
-    private final IMap<String, List<String>> hazelcastMap;
+    private HazelcastInstance client;
+    private final MultiMap<Object, Object> hazelcastMap;
 
     public ReadHazelcastStats(){
-        this.hazelcastMap = hazelcastInstance.getMap("datamart");
-    }
-
-    public HazelcastInstance initialize(){
-        Config config = new Config();
-        config.setInstanceName("instance");
-        this.hazelcastInstance = Hazelcast.newHazelcastInstance(config);
-        return null;
+        this.client = HazelcastClient.newHazelcastClient();
+        this.hazelcastMap = client.getMultiMap("invertedIndex");
     }
     @Override
     public JsonObject totalWords() {
@@ -50,9 +44,9 @@ public class ReadHazelcastStats implements DatamartCalculateStats {
     public JsonArray findWordsByLength(int length) {
         List<String> words = new ArrayList<>();
 
-        for (String word : hazelcastMap.keySet()) {
-            if (word.length() == length) {
-                words.add(word);
+        for (Object key : hazelcastMap.keySet()) {
+            if (key instanceof String && ((String) key).length() == length) {
+                words.add((String) key);
             }
         }
 

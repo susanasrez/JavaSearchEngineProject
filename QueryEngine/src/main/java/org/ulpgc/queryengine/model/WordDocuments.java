@@ -6,7 +6,7 @@ public class WordDocuments {
     private final String word;
     private final List<String> documentsId;
 
-    public WordDocuments(String word, List<String> documents){
+    public WordDocuments(String word,List<String> documents){
         this.word = word;
         this.documentsId =documents;
     }

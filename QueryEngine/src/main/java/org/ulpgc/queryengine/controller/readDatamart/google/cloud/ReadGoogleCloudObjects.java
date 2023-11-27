@@ -52,11 +52,11 @@ public class ReadGoogleCloudObjects implements DatamartReaderFiles {
     @Override
     public List<RecommendBook> getRecommendBook(String phrase) {
         List<WordDocuments> wordDocumentsList = getDocumentsWord(phrase);
-        Map<String, Integer> idCountMap = new HashMap<>();
-        Map<String, String> idTitleMap = new HashMap<>();
+        Map<Object, Integer> idCountMap = new HashMap<>();
+        Map<Object, String> idTitleMap = new HashMap<>();
 
         for (WordDocuments wordDocuments : wordDocumentsList) {
-            for (String id : wordDocuments.documentsId()) {
+            for (Object id : wordDocuments.documentsId()) {
                 idCountMap.put(id, idCountMap.getOrDefault(id, 0) + 1);
                 String title = getTitleForId(id);
                 idTitleMap.put(id, title);
@@ -66,7 +66,7 @@ public class ReadGoogleCloudObjects implements DatamartReaderFiles {
         int maxCount = 0;
         List<RecommendBook> mostRecommendedBooks = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> entry : idCountMap.entrySet()) {
+        for (Map.Entry<Object, Integer> entry : idCountMap.entrySet()) {
             if (entry.getValue() > maxCount) {
                 maxCount = entry.getValue();
                 mostRecommendedBooks.clear();
@@ -80,7 +80,7 @@ public class ReadGoogleCloudObjects implements DatamartReaderFiles {
         return mostRecommendedBooks;
     }
 
-    private String getTitleForId(String id) {
+    private String getTitleForId(Object id) {
         try {
             MetadataBook metadataBook = DatalakeReaderOneDrive.readMetadata(id);
             return metadataBook.title();

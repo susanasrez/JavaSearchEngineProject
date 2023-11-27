@@ -2,8 +2,8 @@ package org.ulpgc.queryengine.view;
 
 import com.google.gson.Gson;
 import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
-import org.ulpgc.queryengine.controller.readDatamart.filesystem.ReadDatamartFiles;
-import org.ulpgc.queryengine.controller.readDatamart.filesystem.ReadDatamartStats;
+import org.ulpgc.queryengine.controller.readDatamart.DatamartCalculateStats;
+import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
 import org.ulpgc.queryengine.model.*;
 
 import java.util.List;
@@ -13,9 +13,10 @@ import static spark.Spark.port;
 
 public class API {
 
-    private static ReadDatamartFiles readDatamartFiles;
-    private static ReadDatamartStats readDatamartStats;
-    public static void runAPI(ReadDatamartFiles obtainFiles, ReadDatamartStats obtainStats, int port){
+    private static DatamartReaderFiles readDatamartFiles;
+    private static DatamartCalculateStats readDatamartStats;
+
+    public static void runAPI(DatamartReaderFiles obtainFiles, DatamartCalculateStats obtainStats, int port){
         readDatamartFiles = obtainFiles;
         readDatamartStats = obtainStats;
         port(port);
