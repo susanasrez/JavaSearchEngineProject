@@ -52,7 +52,7 @@ public class FileProcessor {
         writer.writeMetadataToDatalake(content.get(1), filePath);
         writer.writeEvent(filePath);
 
-        eventPublisher.publish("/Content/" + filePath);
+        eventPublisher.publish(filePath);
     }
 }
 
