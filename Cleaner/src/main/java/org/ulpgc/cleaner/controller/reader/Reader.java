@@ -21,7 +21,7 @@ public class Reader {
     }
 
     public String getMetadata(String idBook) {
-        Path filePath = Path.of(Main.datalakePath + "/metadata/" + idBook);
+        Path filePath = Path.of(Main.datalakePath + "/Metadata/" + idBook);
         try {
             return readFile(filePath);
         } catch (IOException e) {
@@ -30,7 +30,7 @@ public class Reader {
     }
 
     public String getContent(String idBook) {
-        Path filePath = Path.of(Main.datalakePath + "/content/" + idBook);
+        Path filePath = Path.of(Main.datalakePath + "/Content/" + idBook);
         try {
             return readFile(filePath);
         } catch (IOException e) {
@@ -39,7 +39,7 @@ public class Reader {
     }
 
     public String getRawBook(String idBook) {
-        Path filePath = Path.of(Main.datalakePath + "/books/" + idBook);
+        Path filePath = Path.of(Main.datalakePath + "/RawBooks/" + idBook);
         try {
             return readFile(filePath);
         } catch (IOException e) {
