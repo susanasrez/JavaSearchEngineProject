@@ -1,10 +1,13 @@
 package org.ulpgc.queryengine;
 
 import org.ulpgc.queryengine.controller.Controller;
-import org.ulpgc.queryengine.controller.exceptions.ObjectNotFoundException;
+
+import java.io.IOException;
+
+
 public class Main {
 
-    public static void main(String[] args) throws ObjectNotFoundException {
+    public static void main(String[] args) throws IOException {
         new Controller(args[0], Integer.parseInt(args[1]));
     }
 }

@@ -1,40 +1,45 @@
 package org.ulpgc.queryengine.controller.readDatamart.hazelcast;
 
-import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.multimap.MultiMap;
+import com.hazelcast.map.IMap;
 import org.ulpgc.queryengine.controller.exceptions.ObjectNotFoundException;
 import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
+import org.ulpgc.queryengine.controller.readDatamart.google.cloud.ReadGoogleCloudObjects;
 import org.ulpgc.queryengine.model.MetadataBook;
 import org.ulpgc.queryengine.model.RecommendBook;
 import org.ulpgc.queryengine.model.WordDocuments;
 import org.ulpgc.queryengine.model.WordFrequency;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ReadHazelcastWords implements DatamartReaderFiles {
+    private final IMap<String, List<String>> hazelcastMap;
+    private final ReadGoogleCloudObjects readGoogleCloudObjects = new ReadGoogleCloudObjects();
 
-    private final HazelcastInstance client;
-    private final MultiMap<Object, Object> hazelcastMap;
-
-    public ReadHazelcastWords(){
-        this.client = HazelcastClient.newHazelcastClient();
-        this.hazelcastMap = client.getMultiMap("invertedIndex");
+    public ReadHazelcastWords(HazelcastInstance hazelcastInstance){
+        this.hazelcastMap = hazelcastInstance.getMap("datamart");
     }
 
     @Override
     public List<String> get_documents(String word) {
+        System.out.println(word);
         word = word.toLowerCase();
-        Collection<Object> documents = hazelcastMap.get(word);
+        List<String> documents = hazelcastMap.get(word);
 
-        List<String> documentsStrings = new ArrayList<>();
-
-        for (Object obj : documents) {
-            documentsStrings.add((String) obj);
+        if (documents == null) {
+            try {
+                documents = readGoogleCloudObjects.get_documents(word);
+                hazelcastMap.put(word, documents);
+            } catch (ObjectNotFoundException e) {
+                return new ArrayList<>();
+            }
         }
 
-        return documentsStrings;
+        return documents;
     }
 
     @Override
@@ -53,13 +58,13 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
     }
 
     @Override
-    public List<RecommendBook> getRecommendBook(String phrase) throws ObjectNotFoundException {
+    public List<RecommendBook> getRecommendBook(String phrase) {
         List<WordDocuments> wordDocumentsList = getDocumentsWord(phrase);
-        Map<Object, Integer> idCountMap = new HashMap<>();
-        Map<Object, String> idTitleMap = new HashMap<>();
+        Map<String, Integer> idCountMap = new HashMap<>();
+        Map<String, String> idTitleMap = new HashMap<>();
 
         for (WordDocuments wordDocuments : wordDocumentsList) {
-            for (Object id : wordDocuments.documentsId()) {
+            for (String id : wordDocuments.documentsId()) {
                 idCountMap.put(id, idCountMap.getOrDefault(id, 0) + 1);
                 String title = getTitleForId(id);
                 idTitleMap.put(id, title);
@@ -69,7 +74,7 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
         int maxCount = 0;
         List<RecommendBook> mostRecommendedBooks = new ArrayList<>();
 
-        for (Map.Entry<Object, Integer> entry : idCountMap.entrySet()) {
+        for (Map.Entry<String, Integer> entry : idCountMap.entrySet()) {
             if (entry.getValue() > maxCount) {
                 maxCount = entry.getValue();
                 mostRecommendedBooks.clear();
@@ -83,7 +88,7 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
     }
 
     @Override
-    public WordFrequency getFrequency(String word) throws ObjectNotFoundException {
+    public WordFrequency getFrequency(String word) {
         List<WordDocuments> wordDocumentsList = getDocumentsWord(word);
 
         int frequency = 0;
@@ -94,7 +99,7 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
         return new WordFrequency(word, frequency);
     }
 
-    private static String getTitleForId(Object id) {
+    private static String getTitleForId(String id) {
         try {
             MetadataBook metadataBook = DatalakeReaderOneDrive.readMetadata(id);
             return metadataBook.title();

@@ -2,32 +2,25 @@ package org.ulpgc.queryengine.controller.readDatamart.hazelcast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.multimap.MultiMap;
+import com.hazelcast.map.IMap;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartCalculateStats;
+import org.ulpgc.queryengine.controller.readDatamart.google.cloud.ReadGoogleCloudStats;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ReadHazelcastStats implements DatamartCalculateStats {
 
-    private HazelcastInstance client;
-    private final MultiMap<Object, Object> hazelcastMap;
+    private final IMap<String, List<String>> hazelcastMap;
+    private final ReadGoogleCloudStats readGoogleCloudStats = new ReadGoogleCloudStats();
 
-    public ReadHazelcastStats(){
-        this.client = HazelcastClient.newHazelcastClient();
-        this.hazelcastMap = client.getMultiMap("invertedIndex");
+    public ReadHazelcastStats(HazelcastInstance hazelcastInstance){
+        this.hazelcastMap = hazelcastInstance.getMap("datamart");
     }
     @Override
     public JsonObject totalWords() {
-        JsonObject jsonResult = new JsonObject();
-
-        int total = hazelcastMap.size();
-        jsonResult.addProperty("total", total);
-
-        return jsonResult;
+        return readGoogleCloudStats.totalWords();
     }
 
     @Override
@@ -44,9 +37,9 @@ public class ReadHazelcastStats implements DatamartCalculateStats {
     public JsonArray findWordsByLength(int length) {
         List<String> words = new ArrayList<>();
 
-        for (Object key : hazelcastMap.keySet()) {
-            if (key instanceof String && ((String) key).length() == length) {
-                words.add((String) key);
+        for (String word : hazelcastMap.keySet()) {
+            if (word.length() == length) {
+                words.add(word);
             }
         }
 
