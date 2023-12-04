@@ -2,6 +2,7 @@ package org.ulpgc.cleaner.controller.reader;
 
 import java.io.*;
 import java.nio.file.Path;
+import org.ulpgc.cleaner.Main; // Importa la clase Main para usar la ruta del datalake
 
 public class Reader {
 
@@ -20,7 +21,7 @@ public class Reader {
     }
 
     public String getMetadata(String idBook) {
-        Path filePath = Path.of("datalake/metadata/" + idBook);
+        Path filePath = Path.of(Main.datalakePath + "/metadata/" + idBook);
         try {
             return readFile(filePath);
         } catch (IOException e) {
@@ -29,7 +30,7 @@ public class Reader {
     }
 
     public String getContent(String idBook) {
-        Path filePath = Path.of("datalake/content/" + idBook);
+        Path filePath = Path.of(Main.datalakePath + "/content/" + idBook);
         try {
             return readFile(filePath);
         } catch (IOException e) {
@@ -38,7 +39,7 @@ public class Reader {
     }
 
     public String getRawBook(String idBook) {
-        Path filePath = Path.of("datalake/books/" + idBook);
+        Path filePath = Path.of(Main.datalakePath + "/books/" + idBook);
         try {
             return readFile(filePath);
         } catch (IOException e) {
