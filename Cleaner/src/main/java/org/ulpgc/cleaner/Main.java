@@ -7,9 +7,10 @@ public class Main {
     public static String datalakePath;
 
     public static void main(String[] args) {
-        datalakePath = args[0];
-        Controller.run(args[0]);
         APIController apiController = new APIController();
         apiController.run();
+
+        datalakePath = args[0];
+        Controller.run(args[0]);
     }
 }

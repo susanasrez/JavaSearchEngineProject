@@ -15,7 +15,7 @@ VOLUME /home/adambreznen/OneDrive/DocumentsRepository
 RUN mvn clean package
 
 # Run the Java application
-CMD ["java", "-jar", "target/queryengine.jar"]
+CMD ["java", "-jar", "target/queryengine.jar", "We/are/great/developers","8080"]
 
 #
 EXPOSE 8080

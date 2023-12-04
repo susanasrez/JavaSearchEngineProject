@@ -51,7 +51,7 @@ public class FileProcessor {
         writer.writeToDatalake(cleaned_Content, filePath);
         writer.writeMetadataToDatalake(content.get(1), filePath);
 
-        eventPublisher.publish(filePath);
+        eventPublisher.publish("Content/" + filePath);
     }
 }
 

@@ -22,7 +22,9 @@ services:
         condition: service_healthy
   
   cleaner:
-    image: breznadam/cleaner
+    image: breznadam/cleaner:2.0
+    ports:
+      - "80:8080"
     volumes:
       - /home/adambreznen/OneDrive/DocumentsRepository:/app/DocumentsRepository
     depends_on:
@@ -36,19 +38,3 @@ services:
     depends_on:
       mq-container:
         condition: service_healthy
-  
-
-  queryengine:
-    image: breznadam/queryengine
-    ports:
-      - "80:8080"
-    volumes:
-      - /home/adambreznen/OneDrive/DocumentsRepository:/app/DocumentsRepository
-    depends_on:
-      mq-container:
-        condition: service_healthy
-
-
- 
-
-
