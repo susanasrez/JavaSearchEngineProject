@@ -9,5 +9,8 @@
         <module name="Indexer" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Indexer" target="13" />
+    </bytecodeTargetLevel>
   </component>
 </project>

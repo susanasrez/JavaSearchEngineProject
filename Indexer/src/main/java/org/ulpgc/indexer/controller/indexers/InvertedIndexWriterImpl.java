@@ -5,10 +5,8 @@ import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.multimap.MultiMap;
-import org.ulpgc.indexer.controller.InvertedIndexWriter;
 import org.ulpgc.indexer.model.FileEvent;
 
-import javax.sound.midi.Soundbank;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
