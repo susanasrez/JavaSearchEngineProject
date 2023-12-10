@@ -12,8 +12,8 @@ public class EventConsumer implements Consumer {
     private final MessageConsumer consumer;
 
     public EventConsumer(String port, String queue) throws JMSException {
-        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://mq-container:" + port);
-        this.connection = factory.createConnection("artemis", "artemis");
+        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:" + port);
+        this.connection = factory.createConnection();
         this.session = this.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         Destination destination = session.createQueue(queue);
         connection.start();

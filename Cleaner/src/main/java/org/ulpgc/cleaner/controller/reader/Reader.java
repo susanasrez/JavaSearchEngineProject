@@ -30,10 +30,13 @@ public class Reader {
     }
 
     public String getContent(String idBook) {
+        System.out.println(Main.datalakePath + "/Content/" + idBook);
         Path filePath = Path.of(Main.datalakePath + "/Content/" + idBook);
         try {
+            System.out.println(readFile(filePath));
             return readFile(filePath);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

@@ -1,6 +1,7 @@
 package org.ulpgc.indexer.controller;
 
 import org.ulpgc.indexer.Main;
+import org.ulpgc.indexer.controller.indexers.HazelCastWriter;
 import org.ulpgc.indexer.controller.indexers.InvertedIndexCloud;
 import org.ulpgc.indexer.controller.indexers.InvertedIndexWriterImpl;
 import org.ulpgc.indexer.controller.message.broker.EventConsumer;
@@ -18,9 +19,9 @@ public class IndexerThread extends Thread {
     private final EventConsumer eventConsumer;
     private final InvertedIndexWriter invertedIndexWriter;
 
-    public IndexerThread(String contentPath, String credentialsJson) throws JMSException, IOException {
+    public IndexerThread(String contentPath, String credentialsJson) throws JMSException {
         this.contentPath = contentPath;
-        this.invertedIndexWriter = new InvertedIndexWriterImpl();
+        this.invertedIndexWriter = new HazelCastWriter();
         this.eventConsumer = new EventConsumer("61616", "readEvents");
     }
 
@@ -36,11 +37,6 @@ public class IndexerThread extends Thread {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void updateSystem(long start, long end) {
-        Main.takenTimeToIndex += (double) (end - start)/1000;
-        Main.indexedFiles += 1;
     }
 
     private void indexDocument(Path filePath) throws Exception {

@@ -18,14 +18,12 @@ import java.util.Date;
 public class ReaderThread extends Thread {
     private final String contentPath;
     private final String eventPath;
-    private final String listenedPath;
     private final Consumer eventConsumer;
     private final Publisher eventPublisher;
 
     public ReaderThread(String contentPath, String eventPath, String listenedPath) throws JMSException {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
-        this.listenedPath = listenedPath;
         this.eventConsumer = new EventConsumer("61616", "cleanerEvents");
         this.eventPublisher = new EventPublisher("61616", "readEvents");
     }
@@ -61,7 +59,8 @@ public class ReaderThread extends Thread {
         FileWriter file = new FileWriter(contentPath + "/" + filePath.getFileName());
         BufferedWriter writer = new BufferedWriter(file);
 
-        String content = ContentReader.readFileContent(filePath, listenedPath);
+        String fileId = filePath.getFileName().toString().split(".txt")[0];
+        String content = ContentReader.readContentFromAPI("http://localhost:8080/datalake/content/" + fileId);
         writer.write(content);
 
         writer.close();
