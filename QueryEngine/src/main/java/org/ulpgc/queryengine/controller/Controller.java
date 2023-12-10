@@ -3,7 +3,7 @@ package org.ulpgc.queryengine.controller;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
+import org.ulpgc.queryengine.controller.readDatalake.CleanerAPIClient;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartCalculateStats;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
 import org.ulpgc.queryengine.controller.readDatamart.hazelcast.ReadHazelcastStats;
@@ -14,15 +14,12 @@ import java.io.IOException;
 
 public class Controller {
 
-    public Controller(String datalake, int port) throws IOException {
-        new DatalakeReaderOneDrive(datalake+"/Metadata",
-                datalake+"/Content", datalake+"/RawBooks");
+    public Controller(String ip, int port) throws IOException {
+        CleanerAPIClient cleanerAPIClient = new CleanerAPIClient(ip);
         HazelcastInstance hazelcastInstance = initializeHaZelcast();
-        DatamartReaderFiles readDatamartFiles= new ReadHazelcastWords(hazelcastInstance);
+        DatamartReaderFiles readDatamartFiles= new ReadHazelcastWords(hazelcastInstance, cleanerAPIClient);
         DatamartCalculateStats readDatamartStats = new ReadHazelcastStats(hazelcastInstance);
-        API.runAPI(readDatamartFiles, readDatamartStats, port);
-
-
+        API.runAPI(readDatamartFiles, readDatamartStats, port, cleanerAPIClient);
 
     }
 
