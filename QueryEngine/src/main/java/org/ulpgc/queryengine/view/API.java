@@ -1,7 +1,7 @@
 package org.ulpgc.queryengine.view;
 
 import com.google.gson.Gson;
-import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
+import org.ulpgc.queryengine.controller.readDatalake.CleanerAPIClient;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartCalculateStats;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
 import org.ulpgc.queryengine.controller.readDatamart.google.cloud.ReadCloud;
@@ -19,11 +19,13 @@ public class API {
 
     private static ReadHazelcastWords readHazelcastWords;
     private static ReadHazelcastStats readHazelcastStats;
+    private static CleanerAPIClient cleanerAPIClient;
 
-    public static void runAPI(DatamartReaderFiles obtainFiles, DatamartCalculateStats obtainStats, int port) throws IOException {
+    public static void runAPI(DatamartReaderFiles obtainFiles, DatamartCalculateStats obtainStats, int port, CleanerAPIClient client) throws IOException {
         readHazelcastWords = (ReadHazelcastWords) obtainFiles;
         readHazelcastStats = (ReadHazelcastStats) obtainStats;
         ReadCloud.obtain_credentials();
+        cleanerAPIClient = client;
         port(port);
         getTotalWords();
         getLen();
@@ -79,28 +81,29 @@ public class API {
         });
     }
 
-    private static void getMetadata(){
-        get("/datalake/metadata/:idbook", (req, res) -> {
-            String idbook = req.params("idbook") + ".metadata";
-            MetadataBook metadata = DatalakeReaderOneDrive.readMetadata(idbook);
-            return (new Gson()).toJson(metadata);
+    private static void getMetadata() {
+        get("/datalake/metadata/:idBook", (req, res) -> {
+            String idBook = req.params(":idBook");
+            return (new Gson()).toJson(cleanerAPIClient.getMetadata(idBook));
         });
     }
 
-    private static void getRawBook(){
-        get("/datalake/:idbook", (req, res) -> {
-            String idbook = req.params("idbook") + ".txt";
-            Book book = DatalakeReaderOneDrive.readRawBook(idbook);
-            return (new Gson()).toJson(book);
+    private static void getContent() {
+        get("/datalake/content/:idBook", (req, res) -> {
+            String idBook = req.params(":idBook");
+            Book book = cleanerAPIClient.getContent(idBook);
+            return new Gson().toJson(book);
         });
     }
 
-    private static void getContent(){
-        get("/datalake/content/:idbook", (req, res) -> {
-            String idbook = req.params("idbook") + ".txt";
-            String content = DatalakeReaderOneDrive.readContent(idbook);
-            return (new Gson()).toJson(content);
+    private static void getRawBook() {
+        get("/datalake/books/:idBook", (req, res) -> {
+            String idBook = req.params(":idBook");
+            Book book = cleanerAPIClient.getRawBook(idBook);
+            return new Gson().toJson(book);
         });
     }
+
+
 
 }

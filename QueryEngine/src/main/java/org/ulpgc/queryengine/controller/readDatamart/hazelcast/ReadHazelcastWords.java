@@ -3,7 +3,7 @@ package org.ulpgc.queryengine.controller.readDatamart.hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import org.ulpgc.queryengine.controller.exceptions.ObjectNotFoundException;
-import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
+import org.ulpgc.queryengine.controller.readDatalake.CleanerAPIClient;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
 import org.ulpgc.queryengine.controller.readDatamart.google.cloud.ReadGoogleCloudObjects;
 import org.ulpgc.queryengine.model.MetadataBook;
@@ -19,9 +19,11 @@ import java.util.Map;
 public class ReadHazelcastWords implements DatamartReaderFiles {
     private final IMap<String, List<String>> hazelcastMap;
     private final ReadGoogleCloudObjects readGoogleCloudObjects = new ReadGoogleCloudObjects();
+    private static CleanerAPIClient cleanerAPIClient;
 
-    public ReadHazelcastWords(HazelcastInstance hazelcastInstance){
+    public ReadHazelcastWords(HazelcastInstance hazelcastInstance, CleanerAPIClient client){
         this.hazelcastMap = hazelcastInstance.getMap("datamart");
+        this.cleanerAPIClient = client;
     }
 
     @Override
@@ -101,7 +103,7 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
 
     private static String getTitleForId(String id) {
         try {
-            MetadataBook metadataBook = DatalakeReaderOneDrive.readMetadata(id);
+            MetadataBook metadataBook = cleanerAPIClient.getMetadata(id);
             return metadataBook.title();
         } catch (Exception e) {
             e.printStackTrace();
