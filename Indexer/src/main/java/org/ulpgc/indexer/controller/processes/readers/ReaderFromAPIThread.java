@@ -20,12 +20,14 @@ public class ReaderFromAPIThread extends Thread {
     private final String eventPath;
     private final Consumer eventConsumer;
     private final Publisher eventPublisher;
+    private final String apiUrl;
 
-    public ReaderFromAPIThread(String contentPath, String eventPath, String listenedPath) throws JMSException {
+    public ReaderFromAPIThread(String contentPath, String eventPath, String listenedPath, String apiUrl) throws JMSException {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
         this.eventConsumer = new EventConsumer("61616", "cleanerEvents");
         this.eventPublisher = new EventPublisher("61616", "readEvents");
+        this.apiUrl = apiUrl;
     }
 
     public void run() {
@@ -60,7 +62,7 @@ public class ReaderFromAPIThread extends Thread {
         BufferedWriter writer = new BufferedWriter(file);
 
         String fileId = filePath.getFileName().toString().split(".txt")[0];
-        String content = ContentReader.readContentFromAPI("http://localhost:8080/datalake/content/" + fileId);
+        String content = ContentReader.readContentFromAPI(apiUrl + "/datalake/content/" + fileId);
         writer.write(content);
 
         writer.close();

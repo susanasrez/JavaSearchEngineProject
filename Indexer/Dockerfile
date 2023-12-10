@@ -14,8 +14,8 @@ VOLUME /home/adambreznen/OneDrive/DocumentsRepository
 # Build the project
 RUN mvn clean package
 
-# Run the Java application
-CMD ["java", "-jar", "target/indexer.jar", "./DocumentsRepository"]
+# Run the Java application (CHANGE 'localhost' BY THE CLEANER's SERVER IP)
+CMD ["java", "-jar", "target/indexer.jar", "./DocumentsRepository", "http://localhost:8080"]
 
 #
 EXPOSE 8080
