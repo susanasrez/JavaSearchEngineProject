@@ -30,6 +30,11 @@
             <artifactId>google-cloud-storage</artifactId>
             <version>1.118.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+            <version>4.0.2</version>
+        </dependency>
     </dependencies>
 
     <build>

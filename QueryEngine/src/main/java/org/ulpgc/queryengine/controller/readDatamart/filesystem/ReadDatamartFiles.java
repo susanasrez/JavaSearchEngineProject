@@ -1,51 +1,61 @@
-package org.ulpgc.queryengine.controller.readDatamart;
+package org.ulpgc.queryengine.controller.readDatamart.filesystem;
 
-import com.google.cloud.storage.Blob;
-import org.ulpgc.queryengine.controller.exceptions.ObjectNotFoundException;
 import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
+import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
 import org.ulpgc.queryengine.model.MetadataBook;
 import org.ulpgc.queryengine.model.RecommendBook;
 import org.ulpgc.queryengine.model.WordDocuments;
 import org.ulpgc.queryengine.model.WordFrequency;
 
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class InvertedIndexReaderWord implements DatamartReader{
+public class ReadDatamartFiles implements DatamartReaderFiles {
+    private static String datamartPath;
 
-    public List<String> get_documents(String word) throws ObjectNotFoundException {
-        word = word.toLowerCase();
-        Blob blob = ReadCloud.get_documents(word);
-
-        if (blob == null) {
-            throw new ObjectNotFoundException();
-        }
-
-        String content = new String(blob.getContent(), StandardCharsets.UTF_8);
-        String[] documentArray = content.split("\n");
-
-        List<String> documents = new ArrayList<>();
-        Collections.addAll(documents, documentArray);
-
-        return documents;
+    public ReadDatamartFiles(String datamartPath){
+        this.datamartPath = datamartPath;
     }
 
-    public List<WordDocuments> getDocumentsWord(String param) {
+    @Override
+    public List<WordDocuments> getDocumentsWord(String param){
         List<WordDocuments> documents = new ArrayList<>();
 
-        String[] words= param.split(" ");
+        String[] words= param.split("\\+");
+
         for (String word : words){
-            try {
-                List<String> idDocuments = get_documents(word);
-                WordDocuments wordDocuments = new WordDocuments(word, idDocuments);
-                documents.add(wordDocuments);
-            } catch (ObjectNotFoundException e){
-                continue;
-            }
+            List<String> idDocuments = get_documents(word);
+            WordDocuments wordDocuments = new WordDocuments(word, idDocuments);
+            documents.add(wordDocuments);
+
         }
         return documents;
     }
 
+    @Override
+    public List<String> get_documents(String word){
+        word = word.toLowerCase();
+        String filePath = datamartPath + "/" + word;
+        List<String> lines;
+
+        try {
+            Path path = Paths.get(filePath);
+            lines = Files.readAllLines(path);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            lines = null;
+        }
+        return lines;
+    }
+
+    @Override
     public List<RecommendBook> getRecommendBook(String phrase) {
         List<WordDocuments> wordDocumentsList = getDocumentsWord(phrase);
         Map<String, Integer> idCountMap = new HashMap<>();
@@ -75,7 +85,7 @@ public class InvertedIndexReaderWord implements DatamartReader{
         return mostRecommendedBooks;
     }
 
-    private String getTitleForId(String id) {
+    private static String getTitleForId(String id) {
         try {
             MetadataBook metadataBook = DatalakeReaderOneDrive.readMetadata(id);
             return metadataBook.title();
@@ -85,6 +95,7 @@ public class InvertedIndexReaderWord implements DatamartReader{
         }
     }
 
+    @Override
     public WordFrequency getFrequency(String word){
         List<WordDocuments> wordDocumentsList = getDocumentsWord(word);
 
