@@ -6,10 +6,10 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.multimap.MultiMap;
 import org.ulpgc.indexer.model.FileEvent;
 
-public class HazelCastWriter implements InvertedIndexWriter {
+public class InvertedIndexHazelCastWriter implements InvertedIndexWriter {
     private final MultiMap<Object, Object> invertedIndex;
 
-    public HazelCastWriter() {
+    public InvertedIndexHazelCastWriter() {
         HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
         HazelcastInstance client = HazelcastClient.newHazelcastClient();
         invertedIndex = client.getMultiMap("invertedIndex");

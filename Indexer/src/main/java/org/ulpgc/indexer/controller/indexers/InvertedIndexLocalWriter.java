@@ -11,11 +11,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class InvertedIndexWriterImpl implements InvertedIndexWriter {
+public class InvertedIndexLocalWriter implements InvertedIndexWriter {
     private final String indexPath;
     private final MultiMap<Object, Object> invertedIndex;
 
-    public InvertedIndexWriterImpl() {
+    public InvertedIndexLocalWriter() {
         this.indexPath = "../invertedIndexDatamart";
         HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
         HazelcastInstance client = HazelcastClient.newHazelcastClient();

@@ -14,13 +14,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public class InvertedIndexCloud implements InvertedIndexWriter {
+public class InvertedIndexCloudWriter implements InvertedIndexWriter {
 
     private final String bucketName;
     private Storage storage;
     private final MultiMap<Object, Object> invertedIndex;
 
-    public InvertedIndexCloud(String credentialsJson) throws IOException {
+    public InvertedIndexCloudWriter(String credentialsJson) throws IOException {
         this.bucketName = "datamart_invertedindex";
         obtain_credentials(credentialsJson);
         HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
