@@ -11,8 +11,8 @@ public class EventPublisher implements Publisher {
 
 
     public EventPublisher(String port, String queue) throws JMSException {
-        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:" + port);
-        this.connection = factory.createConnection();
+        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://mq-container:" + port);
+        this.connection = factory.createConnection("artemis", "artemis");
         this.session = this.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         Destination destination = session.createQueue(queue);
         this.producer = session.createProducer(destination);
@@ -35,6 +35,4 @@ public class EventPublisher implements Publisher {
         session.close();
         connection.close();
     }
-
-
 }
