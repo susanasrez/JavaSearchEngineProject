@@ -103,7 +103,8 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
 
     private static String getTitleForId(String id) {
         try {
-            MetadataBook metadataBook = cleanerAPIClient.getMetadata(id);
+            String name = id.substring(0, id.length() - 4);
+            MetadataBook metadataBook = cleanerAPIClient.getMetadata(name);
             return metadataBook.title();
         } catch (Exception e) {
             e.printStackTrace();
