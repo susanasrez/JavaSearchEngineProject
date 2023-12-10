@@ -2,7 +2,7 @@ package org.ulpgc.queryengine.controller.readDatamart.google.cloud;
 
 import com.google.cloud.storage.Blob;
 import org.ulpgc.queryengine.controller.exceptions.ObjectNotFoundException;
-import org.ulpgc.queryengine.controller.readDatalake.DatalakeReaderOneDrive;
+import org.ulpgc.queryengine.controller.readDatalake.CleanerAPIClient;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartReaderFiles;
 import org.ulpgc.queryengine.model.MetadataBook;
 import org.ulpgc.queryengine.model.RecommendBook;
@@ -13,6 +13,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ReadGoogleCloudObjects implements DatamartReaderFiles {
+    private static CleanerAPIClient cleanerAPIClient;
+    public ReadGoogleCloudObjects(CleanerAPIClient client){
+        this.cleanerAPIClient = client;
+    }
 
     @Override
     public List<String> get_documents(String word) throws ObjectNotFoundException {
@@ -82,7 +86,7 @@ public class ReadGoogleCloudObjects implements DatamartReaderFiles {
 
     private String getTitleForId(Object id) {
         try {
-            MetadataBook metadataBook = DatalakeReaderOneDrive.readMetadata(id);
+            MetadataBook metadataBook = cleanerAPIClient.getMetadata((String) id);
             return metadataBook.title();
         } catch (Exception e) {
             e.printStackTrace();

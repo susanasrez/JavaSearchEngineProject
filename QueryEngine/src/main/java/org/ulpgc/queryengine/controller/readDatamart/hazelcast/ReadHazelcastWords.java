@@ -18,12 +18,13 @@ import java.util.Map;
 
 public class ReadHazelcastWords implements DatamartReaderFiles {
     private final IMap<String, List<String>> hazelcastMap;
-    private final ReadGoogleCloudObjects readGoogleCloudObjects = new ReadGoogleCloudObjects();
+    private final ReadGoogleCloudObjects readGoogleCloudObjects;
     private static CleanerAPIClient cleanerAPIClient;
 
     public ReadHazelcastWords(HazelcastInstance hazelcastInstance, CleanerAPIClient client){
         this.hazelcastMap = hazelcastInstance.getMap("datamart");
         this.cleanerAPIClient = client;
+        this.readGoogleCloudObjects = new ReadGoogleCloudObjects(client);
     }
 
     @Override

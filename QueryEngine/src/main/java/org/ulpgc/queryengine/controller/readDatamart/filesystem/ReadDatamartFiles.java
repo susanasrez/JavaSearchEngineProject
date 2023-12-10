@@ -15,9 +15,11 @@ import java.util.*;
 
 public class ReadDatamartFiles implements DatamartReaderFiles {
     private static String datamartPath;
+    private static CleanerAPIClient cleanerAPIClient;
 
-    public ReadDatamartFiles(String datamartPath){
+    public ReadDatamartFiles(String datamartPath, CleanerAPIClient client){
         this.datamartPath = datamartPath;
+        this.cleanerAPIClient = client;
     }
 
     @Override
@@ -84,7 +86,7 @@ public class ReadDatamartFiles implements DatamartReaderFiles {
 
     private static String getTitleForId(Object id) {
         try {
-            MetadataBook metadataBook = DatalakeReaderOneDrive.readMetadata(id);
+            MetadataBook metadataBook = cleanerAPIClient.getMetadata((String) id);
             return metadataBook.title();
         } catch (Exception e) {
             e.printStackTrace();
