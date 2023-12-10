@@ -1,6 +1,6 @@
 package org.ulpgc.indexer.controller.message.broker;
 
-import org.ulpgc.indexer.controller.Publisher;
+import org.ulpgc.indexer.controller.message.Publisher;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;

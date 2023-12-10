@@ -1,9 +1,7 @@
-package org.ulpgc.indexer.controller;
+package org.ulpgc.indexer.controller.processes.writers;
 
-import org.ulpgc.indexer.Main;
+import org.ulpgc.indexer.controller.indexers.InvertedIndexWriter;
 import org.ulpgc.indexer.controller.indexers.HazelCastWriter;
-import org.ulpgc.indexer.controller.indexers.InvertedIndexCloud;
-import org.ulpgc.indexer.controller.indexers.InvertedIndexWriterImpl;
 import org.ulpgc.indexer.controller.message.broker.EventConsumer;
 import org.ulpgc.indexer.controller.readers.ContentReader;
 import org.ulpgc.indexer.model.FileEvent;

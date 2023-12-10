@@ -8,7 +8,6 @@ import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.multimap.MultiMap;
 import org.ulpgc.indexer.Main;
-import org.ulpgc.indexer.controller.InvertedIndexWriter;
 import org.ulpgc.indexer.model.FileEvent;
 
 import java.io.ByteArrayInputStream;

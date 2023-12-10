@@ -1,4 +1,4 @@
-package org.ulpgc.indexer.controller;
+package org.ulpgc.indexer.controller.readers.index;
 
 import org.ulpgc.indexer.model.FileEvent;
 

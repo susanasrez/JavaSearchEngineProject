@@ -1,7 +1,6 @@
-package org.ulpgc.indexer.controller.readers;
+package org.ulpgc.indexer.controller.readers.index;
 
 import com.google.gson.Gson;
-import org.ulpgc.indexer.controller.InvertedIndexReader;
 import org.ulpgc.indexer.model.FileEvent;
 
 import java.io.IOException;

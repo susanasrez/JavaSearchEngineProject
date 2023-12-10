@@ -1,4 +1,4 @@
-package org.ulpgc.indexer.controller.readers;
+package org.ulpgc.indexer.controller.readers.index;
 
 import com.google.api.gax.paging.Page;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -7,7 +7,6 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.google.gson.Gson;
 import org.ulpgc.indexer.Main;
-import org.ulpgc.indexer.controller.InvertedIndexReader;
 import org.ulpgc.indexer.model.FileEvent;
 
 import java.io.IOException;

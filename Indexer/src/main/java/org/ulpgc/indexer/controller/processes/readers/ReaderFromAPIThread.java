@@ -1,8 +1,8 @@
-package org.ulpgc.indexer.controller;
+package org.ulpgc.indexer.controller.processes.readers;
 
 import com.google.gson.Gson;
-import org.ulpgc.indexer.controller.Consumer;
-import org.ulpgc.indexer.controller.Publisher;
+import org.ulpgc.indexer.controller.message.Consumer;
+import org.ulpgc.indexer.controller.message.Publisher;
 import org.ulpgc.indexer.controller.message.broker.EventConsumer;
 import org.ulpgc.indexer.controller.message.broker.EventPublisher;
 import org.ulpgc.indexer.controller.readers.ContentReader;
@@ -15,13 +15,13 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Date;
 
-public class ReaderThread extends Thread {
+public class ReaderFromAPIThread extends Thread {
     private final String contentPath;
     private final String eventPath;
     private final Consumer eventConsumer;
     private final Publisher eventPublisher;
 
-    public ReaderThread(String contentPath, String eventPath, String listenedPath) throws JMSException {
+    public ReaderFromAPIThread(String contentPath, String eventPath, String listenedPath) throws JMSException {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
         this.eventConsumer = new EventConsumer("61616", "cleanerEvents");

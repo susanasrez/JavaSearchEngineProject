@@ -2,7 +2,7 @@ package org.ulpgc.indexer.controller.message.broker;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import org.ulpgc.indexer.controller.Consumer;
+import org.ulpgc.indexer.controller.message.Consumer;
 
 import javax.jms.*;
 
