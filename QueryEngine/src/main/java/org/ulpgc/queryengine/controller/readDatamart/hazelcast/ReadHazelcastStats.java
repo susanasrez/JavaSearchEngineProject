@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import org.ulpgc.queryengine.controller.readDatamart.DatamartCalculateStats;
-import org.ulpgc.queryengine.controller.readDatamart.google.cloud.ReadGoogleCloudStats;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +12,16 @@ import java.util.List;
 public class ReadHazelcastStats implements DatamartCalculateStats {
 
     private final IMap<String, List<String>> hazelcastMap;
-    private final ReadGoogleCloudStats readGoogleCloudStats = new ReadGoogleCloudStats();
 
     public ReadHazelcastStats(HazelcastInstance hazelcastInstance){
         this.hazelcastMap = hazelcastInstance.getMap("datamart");
     }
     @Override
     public JsonObject totalWords() {
-        return readGoogleCloudStats.totalWords();
+        JsonObject result = new JsonObject();
+        int size = hazelcastMap.size();
+        result.addProperty("total_files", size);
+        return result;
     }
 
     @Override

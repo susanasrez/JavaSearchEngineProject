@@ -29,7 +29,6 @@ public class ReadHazelcastWords implements DatamartReaderFiles {
 
     @Override
     public List<String> get_documents(String word) {
-        System.out.println(word);
         word = word.toLowerCase();
         List<String> documents = hazelcastMap.get(word);
 
