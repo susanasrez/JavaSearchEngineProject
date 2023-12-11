@@ -25,8 +25,8 @@ public class ReaderFromAPIThread extends Thread {
     public ReaderFromAPIThread(String contentPath, String eventPath, String listenedPath, String apiUrl) throws JMSException {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
-        this.eventConsumer = new EventConsumer("61616", "cleanerEvents");
-        this.eventPublisher = new EventPublisher("61616", "readEvents");
+        this.eventConsumer = new EventConsumer("443", "cleanerEvents", apiUrl);
+        this.eventPublisher = new EventPublisher("443", "readEvents", apiUrl);
         this.apiUrl = apiUrl;
     }
 

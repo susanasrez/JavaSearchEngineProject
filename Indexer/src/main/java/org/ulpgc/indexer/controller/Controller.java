@@ -17,7 +17,8 @@ public class Controller {
 
         Thread indexer = new IndexerThread(
                 "./src/main/resources/content",
-                "/credentials.json");
+                "/credentials.json",
+                contentApiUrl);
         indexer.start();
    }
 }

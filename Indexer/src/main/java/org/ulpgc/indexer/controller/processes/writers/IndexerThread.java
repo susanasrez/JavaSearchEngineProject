@@ -17,10 +17,10 @@ public class IndexerThread extends Thread {
     private final EventConsumer eventConsumer;
     private final InvertedIndexWriter invertedIndexWriter;
 
-    public IndexerThread(String contentPath, String credentialsJson) throws JMSException {
+    public IndexerThread(String contentPath, String credentialsJson, String apiURL) throws JMSException {
         this.contentPath = contentPath;
         this.invertedIndexWriter = new InvertedIndexHazelCastWriter();
-        this.eventConsumer = new EventConsumer("61616", "readEvents");
+        this.eventConsumer = new EventConsumer("443", "readEvents", apiURL);
     }
 
     public void run() {

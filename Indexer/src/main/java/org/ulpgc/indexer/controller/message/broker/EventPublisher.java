@@ -11,8 +11,9 @@ public class EventPublisher implements Publisher {
     private final MessageProducer producer;
 
 
-    public EventPublisher(String port, String queue) throws JMSException {
-        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://mq-container:" + port);
+    public EventPublisher(String port, String queue, String apiURL) throws JMSException {
+        String apiIP = apiURL.substring(7);
+        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://" + apiIP + ":" + port);
         this.connection = factory.createConnection("artemis", "artemis");
         this.session = this.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         Destination destination = session.createQueue(queue);
