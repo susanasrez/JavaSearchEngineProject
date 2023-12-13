@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b966b100-3655-4bf2-9b40-4b56d3228ec6" name="Changes" comment="">
+    <list default="true" id="b966b100-3655-4bf2-9b40-4b56d3228ec6" name="Changes" comment="Server Adaption">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/message/broker/EventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/message/broker/EventConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/message/broker/EventPublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/message/broker/EventPublisher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/readers/ReaderFromAPIThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/readers/ReaderFromAPIThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/writers/IndexerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/writers/IndexerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/writers/IndexerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/writers/AsynchronousIndexerThread.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +30,11 @@
     <option name="BRANCH" value="origin/IndexerApplication" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="CleanerApplication" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -58,6 +62,11 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.ulpgc.indexer.controller.processes.writers" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Indexer" type="Application" factoryName="Application">

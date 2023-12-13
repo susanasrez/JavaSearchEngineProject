@@ -12,12 +12,12 @@ import java.nio.file.Path;
 import java.util.Date;
 import java.util.Set;
 
-public class IndexerThread extends Thread {
+public class AsynchronousIndexerThread extends Thread {
     private final String contentPath;
     private final EventConsumer eventConsumer;
     private final InvertedIndexWriter invertedIndexWriter;
 
-    public IndexerThread(String contentPath, String credentialsJson, String apiURL) throws JMSException {
+    public AsynchronousIndexerThread(String contentPath, String credentialsJson, String apiURL) throws JMSException {
         this.contentPath = contentPath;
         this.invertedIndexWriter = new InvertedIndexHazelCastWriter();
         this.eventConsumer = new EventConsumer("443", "readEvents", apiURL);

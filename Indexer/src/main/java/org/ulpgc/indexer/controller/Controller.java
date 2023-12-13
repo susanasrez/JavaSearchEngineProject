@@ -1,6 +1,6 @@
 package org.ulpgc.indexer.controller;
 
-import org.ulpgc.indexer.controller.processes.writers.IndexerThread;
+import org.ulpgc.indexer.controller.processes.writers.AsynchronousIndexerThread;
 import org.ulpgc.indexer.controller.processes.readers.ReaderFromAPIThread;
 
 import javax.jms.JMSException;
@@ -15,7 +15,7 @@ public class Controller {
                contentApiUrl);
        reader.start();
 
-        Thread indexer = new IndexerThread(
+        Thread indexer = new AsynchronousIndexerThread(
                 "./src/main/resources/content",
                 "/credentials.json",
                 contentApiUrl);

@@ -31,6 +31,11 @@ public class ReaderFromAPIThread extends Thread {
     }
 
     public void run() {
+        readPreviousContent();
+        readIncomingContent();
+    }
+
+    private void readIncomingContent() {
         while (true) {
             String file = eventConsumer.getMessage();
             try {
@@ -44,6 +49,24 @@ public class ReaderFromAPIThread extends Thread {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void readPreviousContent() {
+        for (int book = 0; book < numberOfBooks(); book++) {
+            try {
+                addToContent(Path.of(book + ".txt"));
+                addToEvents(Path.of(book + ".txt"));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public int numberOfBooks() {
+        return Integer.parseInt(
+                ContentReader.readContentFromAPI(
+                        apiUrl + "/datalake/content/size"));
     }
 
     private void addToEvents(Path filePath) throws IOException {
