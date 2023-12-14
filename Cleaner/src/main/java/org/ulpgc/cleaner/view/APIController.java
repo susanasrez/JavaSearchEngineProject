@@ -8,6 +8,7 @@ public class APIController {
         port(8080);
         getMetadata();
         getContent();
+        getContentDocuments();
         getRawBook();
     }
 }

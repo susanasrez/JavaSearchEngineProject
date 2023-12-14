@@ -13,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Date;
 
 public class ReaderFromAPIThread extends Thread {
@@ -52,10 +53,13 @@ public class ReaderFromAPIThread extends Thread {
     }
 
     private void readPreviousContent() {
-        for (int book = 0; book < numberOfBooks(); book++) {
+        for (String book: processedBooks()) {
             try {
-                addToContent(Path.of(book + ".txt"));
-                addToEvents(Path.of(book + ".txt"));
+                System.out.println("Reading file " + book);
+                addToContent(Path.of(book));
+                addToEvents(Path.of(book));
+                System.out.println("File " + book + " read");
+                eventPublisher.publish(book);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -63,10 +67,10 @@ public class ReaderFromAPIThread extends Thread {
         }
     }
 
-    public int numberOfBooks() {
-        return Integer.parseInt(
-                ContentReader.readContentFromAPI(
-                        apiUrl + "/datalake/content/size"));
+    public String[] processedBooks() {
+        return new Gson().fromJson(
+                "[" + ContentReader.readContentFromAPI(
+                        apiUrl + ":8080/datalake/content") + "]", String[].class);
     }
 
     private void addToEvents(Path filePath) throws IOException {
@@ -85,7 +89,7 @@ public class ReaderFromAPIThread extends Thread {
         BufferedWriter writer = new BufferedWriter(file);
 
         String fileId = filePath.getFileName().toString().split(".txt")[0];
-        String content = ContentReader.readContentFromAPI(apiUrl + "/datalake/content/" + fileId);
+        String content = ContentReader.readContentFromAPI(apiUrl + ":8080/datalake/content/" + fileId);
         writer.write(content);
 
         writer.close();

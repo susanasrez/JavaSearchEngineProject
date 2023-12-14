@@ -1,4 +1,4 @@
-package org.ulpgc.cleaner.controller.message.brocker;
+package org.ulpgc.cleaner.controller.message.broker;
 
 import org.ulpgc.cleaner.controller.Publisher;
 import org.apache.activemq.ActiveMQConnectionFactory;

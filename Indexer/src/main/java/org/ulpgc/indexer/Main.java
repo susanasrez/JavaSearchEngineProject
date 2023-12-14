@@ -6,6 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
         try {
+            API api = new API();
+            api.run();
             Controller.run(args[0], args[1]);
 
         } catch (Exception e) {

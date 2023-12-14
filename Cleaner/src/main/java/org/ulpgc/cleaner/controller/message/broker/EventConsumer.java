@@ -1,4 +1,4 @@
-package org.ulpgc.cleaner.controller.message.brocker;
+package org.ulpgc.cleaner.controller.message.broker;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.ulpgc.cleaner.controller.Consumer;
@@ -40,7 +40,6 @@ public class EventConsumer implements Consumer {
 
         return null;
     }
-
 
     public void closeConnection() throws JMSException {
         consumer.close();

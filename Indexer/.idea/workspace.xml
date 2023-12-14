@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b966b100-3655-4bf2-9b40-4b56d3228ec6" name="Changes" comment="Server Adaption">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/readers/ReaderFromAPIThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/readers/ReaderFromAPIThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/writers/IndexerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/processes/writers/AsynchronousIndexerThread.java" afterDir="false" />
-    </list>
+    <list default="true" id="b966b100-3655-4bf2-9b40-4b56d3228ec6" name="Changes" comment="Indexer Generalization for Indexing Previous Processed Content" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,6 +88,21 @@
       <workItem from="1698944447510" duration="924000" />
       <workItem from="1699097563181" duration="9504000" />
     </task>
+    <task id="LOCAL-00001" summary="Indexer Generalization for Indexing Previous Processed Content">
+      <created>1702496071257</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1702496071257</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Indexer Generalization for Indexing Previous Processed Content">
+      <created>1702496091497</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702496091497</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -109,5 +118,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Indexer Generalization for Indexing Previous Processed Content" />
+    <option name="LAST_COMMIT_MESSAGE" value="Indexer Generalization for Indexing Previous Processed Content" />
   </component>
 </project>

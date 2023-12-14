@@ -5,6 +5,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.ulpgc.indexer.controller.message.Consumer;
 
 import javax.jms.*;
+import java.util.ArrayList;
 
 public class EventConsumer implements Consumer {
     private final Connection connection;
@@ -15,7 +16,7 @@ public class EventConsumer implements Consumer {
     public EventConsumer(String port, String queue, String apiURL) throws JMSException {
         String apiIP = apiURL.substring(7);
         ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://" + apiIP + ":" + port);
-        this.connection = factory.createConnection("artemis", "artemis");
+        this.connection = factory.createConnection();
         this.session = this.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         Destination destination = session.createQueue(queue);
         connection.start();
@@ -42,7 +43,6 @@ public class EventConsumer implements Consumer {
 
         return null;
     }
-
 
     public void closeConnection() throws JMSException {
         consumer.close();

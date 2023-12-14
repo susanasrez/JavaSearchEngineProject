@@ -39,7 +39,7 @@ public class ContentReader {
                 Element body = document.body();
 
                 connection.disconnect();
-                return body.text().substring(1, body.text().length() - 2);
+                return body.text().substring(1, body.text().length() - 1);
 
             } else {
                 throw new RuntimeException("Impossible to access file");
