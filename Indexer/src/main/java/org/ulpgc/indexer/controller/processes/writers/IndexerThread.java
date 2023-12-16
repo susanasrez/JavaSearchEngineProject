@@ -1,5 +1,6 @@
 package org.ulpgc.indexer.controller.processes.writers;
 
+import org.ulpgc.indexer.Main;
 import org.ulpgc.indexer.controller.indexers.InvertedIndexWriter;
 import org.ulpgc.indexer.controller.indexers.InvertedIndexHazelCastWriter;
 import org.ulpgc.indexer.controller.message.broker.EventConsumer;
@@ -20,7 +21,7 @@ public class IndexerThread extends Thread {
     public IndexerThread(String contentPath, String credentialsJson, String apiURL) throws JMSException {
         this.contentPath = contentPath;
         this.invertedIndexWriter = new InvertedIndexHazelCastWriter();
-        this.eventConsumer = new EventConsumer("443", "readEvents", apiURL);
+        this.eventConsumer = new EventConsumer(Integer.toString(Main.SERVER_MQ_PORT), "readEvents", apiURL);
     }
 
     public void run() {

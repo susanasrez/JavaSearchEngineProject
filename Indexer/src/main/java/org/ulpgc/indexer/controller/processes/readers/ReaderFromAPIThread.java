@@ -1,6 +1,7 @@
 package org.ulpgc.indexer.controller.processes.readers;
 
 import com.google.gson.Gson;
+import org.ulpgc.indexer.Main;
 import org.ulpgc.indexer.controller.message.Consumer;
 import org.ulpgc.indexer.controller.message.Publisher;
 import org.ulpgc.indexer.controller.message.broker.EventConsumer;
@@ -26,8 +27,8 @@ public class ReaderFromAPIThread extends Thread {
     public ReaderFromAPIThread(String contentPath, String eventPath, String listenedPath, String apiUrl) throws JMSException {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
-        this.eventConsumer = new EventConsumer("443", "cleanerEvents", apiUrl);
-        this.eventPublisher = new EventPublisher("443", "readEvents", apiUrl);
+        this.eventConsumer = new EventConsumer(Integer.toString(Main.SERVER_MQ_PORT), "cleanerEvents", apiUrl);
+        this.eventPublisher = new EventPublisher(Integer.toString(Main.SERVER_MQ_PORT), "readEvents", apiUrl);
         this.apiUrl = apiUrl;
     }
 
@@ -70,7 +71,7 @@ public class ReaderFromAPIThread extends Thread {
     public String[] processedBooks() {
         return new Gson().fromJson(
                 "[" + ContentReader.readContentFromAPI(
-                        apiUrl + ":8080/datalake/content") + "]", String[].class);
+                        apiUrl + ":" + Main.SERVER_CLEANER_PORT + "/datalake/content") + "]", String[].class);
     }
 
     private void addToEvents(Path filePath) throws IOException {

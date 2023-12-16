@@ -8,14 +8,11 @@ WORKDIR /app
 COPY pom.xml /app
 COPY src /app/src
 
-# Define a volume to mount the host directory
-VOLUME /home/adambreznen/OneDrive/DocumentsRepository
-
 # Build the project
 RUN mvn clean package
 
 # Run the Java application (CHANGE 'localhost' BY THE CLEANER's SERVER IP)
-CMD ["java", "-jar", "target/indexer.jar", "./DocumentsRepository", "http://localhost:8080"]
+CMD ["java", "-jar", "target/indexer.jar", "./DocumentsRepository", "http://34.16.132.192"]
 
 #
 EXPOSE 8080

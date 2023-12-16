@@ -16,7 +16,7 @@ public class EventConsumer implements Consumer {
     public EventConsumer(String port, String queue, String apiURL) throws JMSException {
         String apiIP = apiURL.substring(7);
         ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://" + apiIP + ":" + port);
-        this.connection = factory.createConnection();
+        this.connection = factory.createConnection("artemis", "artemis");
         this.session = this.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         Destination destination = session.createQueue(queue);
         connection.start();
