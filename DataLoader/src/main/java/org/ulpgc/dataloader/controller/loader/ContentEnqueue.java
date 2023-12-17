@@ -18,7 +18,9 @@ public class ContentEnqueue {
     }
 
     public void execute() {
-        for (String book: processedBooks()) {
+        String[] previousBooks = processedBooks();
+        System.out.println("Books to add: " + previousBooks.length);
+        for (String book: previousBooks) {
             try {
                 System.out.println("Published book " + book);
                 eventPublisher.publish(book);
