@@ -11,8 +11,7 @@ COPY src /app/src
 # Build the project
 RUN mvn clean package
 
-# Run the Java application (CHANGE 'localhost' BY THE CLEANER's SERVER IP)
-CMD ["java", "-jar", "target/indexer.jar", "./DocumentsRepository", "http://34.16.132.192"]
+CMD ["java", "-jar", "target/indexer.jar", "http://34.16.132.192"]
 
 #
 EXPOSE 8080

@@ -8,10 +8,9 @@ import java.io.IOException;
 
 public class Controller {
 
-   public static void run(String datalakePath, String contentApiUrl) throws JMSException, IOException {
+   public static void run(String contentApiUrl) throws JMSException, IOException {
        Thread reader = new ReaderFromAPIThread("./src/main/resources/content",
                "./src/main/resources/readEvents",
-               datalakePath,
                contentApiUrl);
        reader.start();
 

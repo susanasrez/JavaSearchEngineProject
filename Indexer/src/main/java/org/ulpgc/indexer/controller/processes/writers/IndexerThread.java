@@ -26,12 +26,12 @@ public class IndexerThread extends Thread {
 
     public void run() {
         while (true) {
+            System.out.println();
             String file = eventConsumer.getMessage();
             try {
                 System.out.println("Indexing file " + file);
                 indexDocument(Path.of(file));
                 System.out.println("File " + file + " indexed");
-                Thread.sleep(1000);
 
             } catch (Exception e) {
                 e.printStackTrace();
