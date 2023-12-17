@@ -18,10 +18,10 @@ public class IndexerThread extends Thread {
     private final EventConsumer eventConsumer;
     private final InvertedIndexWriter invertedIndexWriter;
 
-    public IndexerThread(String contentPath, String credentialsJson, String apiURL) throws JMSException {
+    public IndexerThread(String contentPath, String credentialsJson, String apiURL, String indexerId) throws JMSException {
         this.contentPath = contentPath;
         this.invertedIndexWriter = new InvertedIndexHazelCastWriter();
-        this.eventConsumer = new EventConsumer(Integer.toString(Main.SERVER_MQ_PORT), "readEvents", apiURL);
+        this.eventConsumer = new EventConsumer(Integer.toString(Main.SERVER_MQ_PORT), "readEvents" + indexerId, apiURL);
     }
 
     public void run() {

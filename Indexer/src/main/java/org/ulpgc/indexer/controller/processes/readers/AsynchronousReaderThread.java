@@ -23,11 +23,11 @@ public class AsynchronousReaderThread extends Thread {
     private final Publisher eventPublisher;
     private final String apiUrl;
 
-    public AsynchronousReaderThread(String contentPath, String eventPath, String apiUrl) throws JMSException {
+    public AsynchronousReaderThread(String contentPath, String eventPath, String apiUrl, String indexerId) throws JMSException {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
         this.eventConsumer = new EventConsumer(Integer.toString(Main.SERVER_MQ_PORT), "cleanerEvents", apiUrl);
-        this.eventPublisher = new EventPublisher(Integer.toString(Main.SERVER_MQ_PORT), "readEvents", apiUrl);
+        this.eventPublisher = new EventPublisher(Integer.toString(Main.SERVER_MQ_PORT), "readEvents" + indexerId, apiUrl);
         this.apiUrl = apiUrl;
     }
 

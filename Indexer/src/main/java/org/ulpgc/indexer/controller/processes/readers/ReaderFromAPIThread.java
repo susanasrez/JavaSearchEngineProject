@@ -14,7 +14,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Date;
 
 public class ReaderFromAPIThread extends Thread {
@@ -24,11 +23,11 @@ public class ReaderFromAPIThread extends Thread {
     private final Publisher eventPublisher;
     private final String apiUrl;
 
-    public ReaderFromAPIThread(String contentPath, String eventPath, String apiUrl) throws JMSException {
+    public ReaderFromAPIThread(String contentPath, String eventPath, String apiUrl, String indexerId) throws JMSException {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
         this.eventConsumer = new EventConsumer(Integer.toString(Main.SERVER_MQ_PORT), "cleanerEvents", apiUrl);
-        this.eventPublisher = new EventPublisher(Integer.toString(Main.SERVER_MQ_PORT), "readEvents", apiUrl);
+        this.eventPublisher = new EventPublisher(Integer.toString(Main.SERVER_MQ_PORT), "readEvents" + indexerId, apiUrl);
         this.apiUrl = apiUrl;
     }
 

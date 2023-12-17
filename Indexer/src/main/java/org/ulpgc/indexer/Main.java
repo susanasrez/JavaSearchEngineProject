@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            Controller.run(args[0]);
+            Controller.run(args[0], args[1]);
             new API().run();
 
         } catch (Exception e) {
