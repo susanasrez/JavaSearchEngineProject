@@ -33,6 +33,9 @@ public class IndexerThread extends Thread {
                 indexDocument(Path.of(file));
                 System.out.println("File " + file + " indexed");
 
+                Main.INDEXED_BOOKS += 1;
+                Thread.sleep(1);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

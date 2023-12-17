@@ -1,5 +1,6 @@
 package org.ulpgc.indexer.controller;
 
+import org.ulpgc.indexer.controller.processes.readers.AsynchronousReaderThread;
 import org.ulpgc.indexer.controller.processes.writers.IndexerThread;
 import org.ulpgc.indexer.controller.processes.readers.ReaderFromAPIThread;
 
@@ -9,7 +10,7 @@ import java.io.IOException;
 public class Controller {
 
    public static void run(String contentApiUrl) throws JMSException, IOException {
-       Thread reader = new ReaderFromAPIThread("./src/main/resources/content",
+       Thread reader = new AsynchronousReaderThread("./src/main/resources/content",
                "./src/main/resources/readEvents",
                contentApiUrl);
        reader.start();

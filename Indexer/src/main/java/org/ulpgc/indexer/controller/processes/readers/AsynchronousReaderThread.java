@@ -14,17 +14,16 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Date;
 
-public class ReaderFromAPIThread extends Thread {
+public class AsynchronousReaderThread extends Thread {
     private final String contentPath;
     private final String eventPath;
     private final Consumer eventConsumer;
     private final Publisher eventPublisher;
     private final String apiUrl;
 
-    public ReaderFromAPIThread(String contentPath, String eventPath, String apiUrl) throws JMSException {
+    public AsynchronousReaderThread(String contentPath, String eventPath, String apiUrl) throws JMSException {
         this.contentPath = contentPath;
         this.eventPath = eventPath;
         this.eventConsumer = new EventConsumer(Integer.toString(Main.SERVER_MQ_PORT), "cleanerEvents", apiUrl);
@@ -33,7 +32,6 @@ public class ReaderFromAPIThread extends Thread {
     }
 
     public void run() {
-        readPreviousContent();
         readIncomingContent();
     }
 
@@ -51,29 +49,6 @@ public class ReaderFromAPIThread extends Thread {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void readPreviousContent() {
-        for (String book: processedBooks()) {
-            try {
-                System.out.println("Reading file " + book);
-                addToContent(Path.of(book));
-                addToEvents(Path.of(book));
-                System.out.println("File " + book + " read");
-
-                eventPublisher.publish(book);
-                Thread.sleep(1);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public String[] processedBooks() {
-        return new Gson().fromJson(
-                "[" + ContentReader.readContentFromAPI(
-                        apiUrl + ":" + Main.SERVER_CLEANER_PORT + "/datalake/content") + "]", String[].class);
     }
 
     private void addToEvents(Path filePath) throws IOException {
@@ -98,5 +73,4 @@ public class ReaderFromAPIThread extends Thread {
         writer.close();
         file.close();
     }
-
 }
