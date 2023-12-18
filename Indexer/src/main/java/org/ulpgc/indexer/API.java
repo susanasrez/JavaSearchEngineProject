@@ -13,8 +13,7 @@ public class API {
 
     public API() {
         HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
-        HazelcastInstance client = HazelcastClient.newHazelcastClient();
-        invertedIndex = client.getMultiMap("invertedIndex");
+        invertedIndex = hazelcastInstance.getMultiMap("invertedIndex");
     }
 
     public void run() {

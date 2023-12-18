@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b966b100-3655-4bf2-9b40-4b56d3228ec6" name="Changes" comment="Indexer Generalization for Indexing Previous Processed Content" />
+    <list default="true" id="b966b100-3655-4bf2-9b40-4b56d3228ec6" name="Changes" comment="Indexer Generalization for Indexing Previous Processed Content">
+      <change beforePath="$PROJECT_DIR$/../DataLoader/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../DataLoader/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/API.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/indexers/InvertedIndexHazelCastWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ulpgc/indexer/controller/indexers/InvertedIndexHazelCastWriter.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

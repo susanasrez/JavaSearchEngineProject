@@ -11,7 +11,7 @@ COPY src /app/src
 # Build the project
 RUN mvn clean package
 
-CMD ["java", "-jar", "target/content-loader.jar", "http://34.16.132.192", "443"]
+CMD ["java", "-jar", "target/content-loader.jar", "http://34.16.187.84", "443"]
 
 #
 EXPOSE 8080

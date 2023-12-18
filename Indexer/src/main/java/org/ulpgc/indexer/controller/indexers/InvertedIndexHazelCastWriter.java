@@ -11,11 +11,8 @@ public class InvertedIndexHazelCastWriter implements InvertedIndexWriter {
     private final MultiMap<Object, Object> invertedIndex;
 
     public InvertedIndexHazelCastWriter() {
-        //Config config = new Config();
-        //config.getNetworkConfig().setPublicAddress("34.16.155.243");
         HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
-        HazelcastInstance client = HazelcastClient.newHazelcastClient();
-        invertedIndex = client.getMultiMap("invertedIndex");
+        invertedIndex = hazelcastInstance.getMultiMap("invertedIndex");
     }
 
     @Override
