@@ -3,7 +3,7 @@
 In this repository, you can find the source code for building up an inverted index based search-engine for books directly obtained from Project Gutenberg. We also implemented both relational and non-relational datamarts in order to be able to make queries to the index, which will be useful in the next phase of this Search Engine Project, and will give real functionality to the project.
 
 <br>
-1) <b>How to run</b>
+<h2>1) <b>How to run</b> (Docker and Docker Compose)</h2>
 
 For each module you should generate the corresponding docker image. If we take the indexer as a reference, a command like the following should be executed
 
@@ -27,3 +27,4 @@ Other modules, Crawler and CLeaner, are already running on the server which ip i
 
 <br>
 <h2>Credits</h2>
+[Adam Brez](https://github.com/breznada/)
