@@ -27,4 +27,10 @@ Other modules, Crawler and CLeaner, are already running on the server which ip i
 
 <br>
 <h2>Credits</h2>
-[Adam Brez](https://github.com/breznada/)
+
+
+- [Adam Brez](https://github.com/breznada/)
+- [Susana Suárez](https://github.com/susanasrez)
+- [Mara Pareja](https://github.com/marapareja17)
+- [Joaquín](https://github.com/JoaquinIP)
+- [Ricardo Cárdnes](https://github.com/ricardocardn)
