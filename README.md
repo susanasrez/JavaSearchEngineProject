@@ -1,6 +1,11 @@
 <h1 align="center">LiBook: Book Search Engine 🔍 </h1>
 
-In this repository, you can find the source code for building up an inverted index based search-engine for books directly obtained from Project Gutenberg. We also implemented both relational and non-relational datamarts in order to be able to make queries to the index, which will be useful in the next phase of this Search Engine Project, and will give real functionality to the project.
+  <img src="https://github.com/susanasrez/JavaSearchEngineProject/blob/master/logo.png" width="150" align="left" />
+  <p>
+    In this repository, you can find the source code for building up an inverted index based search-engine for books directly obtained from Project Gutenberg. We also implemented both relational and non-relational datamarts in order to be able to make queries to the index, which will be useful in the next phase of this Search Engine Project, and will give real functionality to the project. This project aims to provide a powerful search engine for books, making it easy for users to search for and access a wide range of literary works from Project Gutenberg's collection. The implementation of both relational and non-relational data stores adds flexibility and scalability to the system, allowing for efficient querying and retrieval of information.
+  
+  </p>
+
 
 <br>
 <h2>1) <b>How to run</b> (Docker and Docker Compose)</h2>
